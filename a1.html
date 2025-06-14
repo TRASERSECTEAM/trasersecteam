@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>INFO ORANG HILANG</title>
+<style>
+:root{--paper:#fcfaf2;--ink:#111;--headline:#b71c1c;--border:#979797;--accent:#b71c1c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Times New Roman",serif;
+     padding:24px 8px;display:flex;flex-direction:column;align-items:center}
+header{max-width:920px;width:100%;border-bottom:3px double var(--ink);
+       padding-bottom:6px;margin-bottom:12px;text-align:center}
+header h1{font-size:26px;text-transform:uppercase;letter-spacing:.8px;color:var(--headline)}
+header h5{font-style:italic;font-size:12px;color:#555}
+
+.photo-container{column-count:4;column-gap:12px;max-width:920px;width:100%}
+@media(max-width:760px){.photo-container{column-count:3}}
+@media(max-width:560px){.photo-container{column-count:2}}
+@media(max-width:360px){.photo-container{column-count:1}}
+
+.photo-card{display:inline-block;width:100%;background:transparent;border:1px solid var(--border);
+            padding:6px;margin:0 0 12px;break-inside:avoid;transition:.3s}
+.photo-card:hover{background:#f4f0e3;transform:scale(1.03)}
+.poster-header{background:var(--accent);color:#fff;font-size:9px;font-weight:700;text-align:center;padding:1px 0}
+
+.img-wrap{position:relative}
+.photo-card img{width:100%;aspect-ratio:3/4;object-fit:cover;border:1px solid var(--border);
+                filter:grayscale(85%);margin:4px 0;cursor:pointer;transition:transform .3s}
+.photo-card img:hover{transform:scale(1.2)}
+.found-overlay{position:absolute;inset:0;background:rgba(183,28,28,.87);
+               display:flex;align-items:center;justify-content:center;
+               color:#fff;font-weight:900;font-size:18px;letter-spacing:1px;
+               text-shadow:1px 1px 3px #000;pointer-events:none;opacity:0;transition:.3s}
+.img-wrap.found .found-overlay{opacity:1}
+
+.photo-card p{font-weight:700;font-size:12px;text-align:center;margin-bottom:3px}
+.actions{display:flex;justify-content:space-between;align-items:center;font-size:11px}
+.like-btn{background:var(--accent);border:none;color:#fff;width:22px;height:22px;border-radius:50%;
+          cursor:pointer;font-size:12px}
+.like-count{color:var(--accent);font-weight:700;font-size:11px}
+.delete-btn,.found-btn{border:none;padding:2px 6px;cursor:pointer;font-size:10px;border-radius:4px;color:#fff}
+.delete-btn{background:#333}.found-btn{background:#d32f2f}
+
+.comment-section{margin-top:10px;display:flex;flex-direction:column;gap:5px}
+.comment-input{width:100%;padding:5px;border:1px solid var(--border);border-radius:4px}
+.comment-btn,.show-comments-btn{padding:5px 10px;background:var(--accent);color:#fff;border:none;
+                                border-radius:4px;cursor:pointer;font-size:12px}
+.comment-list{margin-top:10px;font-size:12px;color:var(--ink)}
+.comment-item{padding:5px 0;border-bottom:1px solid var(--border)}
+.comment-empty{font-style:italic;color:#777;padding:4px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>DAFTAR ORANG HILANG</h1>
+  <h5>foto akan saya jadikan tindakan kriminal jika tidak ingin hal tersebut silahkan membayar ke 6285693120853</h5>
+</header>
+<div class="photo-container" id="photoContainer"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig={
+  apiKey:"AIzaSyBVMpOCjY9gdd4UkSa",
+  authDomain:"yanofc-1ecd3.firebaseapp.com",
+  databaseURL:"https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"yanofc-1ecd3",storageBucket:"yanofc-1ecd3.appspot.com",
+  messagingSenderId:"843043156565",appId:"1:843043156565:web:e00942a837d30e4b4a9adc"
+};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.database();
+const container=document.getElementById('photoContainer');
+
+db.ref('photos').once('value',snap=>{
+  snap.forEach(child=>{
+    const d=child.val(); if(!d.imageUrl) return;
+    const k=child.key;
+    const card=document.createElement('div');card.className='photo-card';
+
+    card.innerHTML=`
+      <div class='poster-header'>${d.status||'DIPERKOSA'}</div>
+      <div class='img-wrap ${d.status==='SUDAH KETEMU'?'found':''}'>
+        <img src='${d.imageUrl}' alt='${d.name}'>
+        <div class='found-overlay'>membayar</div>
+      </div>
+      <p>${d.name}</p>
+      <div class='actions'>
+        <div style='display:flex;align-items:center;gap:3px'>
+          <button class='like-btn'>♥</button><span class='like-count'>0</span>
+        </div>
+        <div style='display:flex;gap:4px'>
+          <button class='found-btn'>Veriv</button>
+          <button class='delete-btn'>Hapus</button>
+        </div>
+      </div>
+      <div class='comment-section'>
+        <input class='comment-input' placeholder='Tulis komentar…'>
+        <button class='comment-btn'>Kirim</button>
+        <button class='show-comments-btn'>Show</button>
+        <div class='comment-list'></div>
+      </div>`;
+    container.appendChild(card);
+
+    
+    const likeBtn=card.querySelector('.like-btn');
+    const likeCount=card.querySelector('.like-count');
+    const likeRef=db.ref(`photos/${k}/likes`);
+    likeRef.on('value',s=>likeCount.textContent=s.val()||0);
+    if(localStorage.getItem(`liked_${k}`)) likeBtn.disabled=true;
+    likeBtn.onclick=()=>{
+      if(!localStorage.getItem(`liked_${k}`)){
+        likeRef.transaction(v=>(v||0)+1);
+        localStorage.setItem(`liked_${k}`,'1');likeBtn.disabled=true;
+      }
+    };
+
+   
+    card.querySelector('.delete-btn').onclick=()=>{
+      if(prompt('Kode rahasia:')==='anon552')
+        db.ref(`photos/${k}`).remove().then(()=>card.remove());
+    };
+
+   
+    const foundBtn=card.querySelector('.found-btn');
+    const imgWrap=card.querySelector('.img-wrap');
+    foundBtn.onclick=()=>{
+      if(prompt('Kode rahasia:')!=='anon552') return;
+      const nowFound=!imgWrap.classList.contains('found');
+      imgWrap.classList.toggle('found');
+      const status=nowFound?'SUDAH KETEMU':'DIPERKOSA';
+      card.querySelector('.poster-header').textContent=status;
+      db.ref(`photos/${k}/status`).set(status);
+    };
+
+    
+    const cRef=db.ref(`photos/${k}/comments`);
+    const cInput=card.querySelector('.comment-input');
+    card.querySelector('.comment-btn').onclick=()=>{
+      if(cInput.value.trim()){cRef.push(cInput.value.trim());cInput.value='';}
+    };
+    const cList=card.querySelector('.comment-list');
+    card.querySelector('.show-comments-btn').onclick=()=>{
+      cRef.once('value',s=>{
+        cList.innerHTML='';
+        if(!s.exists()){cList.innerHTML='<div class="comment-empty">Belum ada komentar</div>';return;}
+        s.forEach(cs=>{
+          const div=document.createElement('div');
+          div.className='comment-item';div.textContent=cs.val();
+          cList.appendChild(div);
+        });
+      });
+    };
+  });
+});
+</script>
+</body>
+</html>
