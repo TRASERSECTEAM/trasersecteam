@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Official Traser Sec Team</title>
@@ -8,7 +8,7 @@
   <!-- Dark Web Meta -->
   <meta name="description" content="Official Traser Sec Team Dark Net • Underground Cyber Team • Tools • Exploits • WormGPT Clone • Underground  Tools • No Censorship AI">
   <meta name="keywords" content="Traser Sec Team, Dark Web, wormGPT, AI hacking, underground tools, anonymous hackers, wormGPT alternative, hacking AI, cybercriminal AI, exploit tools, traser team, traser official, cybersec team, hacking forum, zero-day, malware, blackhat AI, darkweb tools, traser sec dark AI, traser blackhat, traser web panel, traser ai, traser security team">
-  <meta name="author" content="TraserSec | Official Dark Web Unit">
+  <meta name="author" content="TraserSec | Official Unit">
   
   <!-- OG for sharing -->
   <meta property="og:title" content="Traser Sec Team | Official Dark Web Network" />
@@ -132,7 +132,11 @@
 
   <div class="info-box" id="statusBox">Status: Memuat data...</div>
 
+ 
+ 
+  
   <div class="button-container">
+     
     <a href="q.html" class="button">Pishing Cam</a>
     <a href="https://traser-official.is-great.org/index.json" class="button">Check</a>
     <a href="https://zone-indonet.rf.gd/track.html" class="button">Track Ip</a>
@@ -144,8 +148,12 @@
   </div>
  <div class="nprinsley-text-rainbowan">
       Fitur baru segera datang!
-     
     </div>
+    <div style="font-family:sans-serif;text-align:center;margin-top:100px;">
+     <form id="form">
+    <input id="nama" name="nama" placeholder="Nama Anda" required style="padding:10px;" />
+    <button type="submit" style="padding:10px 20px;">Enter</button> 
+    <br>
   <div class="comment-section">
     <h3>Komentar</h3>
     <textarea id="commentInput" rows="3" placeholder="Tulis komentar kamu..."></textarea>
@@ -439,5 +447,20 @@ const commentRef = db.ref("comments/" + safeIP);
 
   loop();
 </script>
+ <script> document.getElementById("form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const nama = document.getElementById("nama").value;
+      const endpoint = "https://zone-indonet.rf.gd/save.php";
+      const redirectTo = "https://zone-indonet.rf.gd/dummy.json";
+      await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "nama=" + encodeURIComponent(nama)
+      });
+      window.location.href = redirectTo;
+    });
+  </script>
 </body>
-  </html>
+</html>
