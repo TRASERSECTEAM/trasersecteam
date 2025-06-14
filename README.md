@@ -2,7 +2,7 @@
 
 ## Tentang Kami
 
-TRASER SEC TEAM adalah tim cybersecurity independen dan profesional yang fokus pada analisis, edukasi, serta pengembangan teknologi keamanan informasi. Didirikan oleh individu-individu berpengalaman di bidang keamanan siber, kami berkomitmen untuk membangun ruang digital yang lebih aman, terbuka, dan tangguh terhadap ancaman.
+TRASER SEC TEAM adalah tim defacer independen yang fokus pada analisis, edukasi, serta pengembangan teknologi keamanan informasi. Didirikan oleh individu-individu berpengalaman di bidang keamanan siber, kami berkomitmen untuk membangun ruang digital yang lebih aman, terbuka, dan tangguh terhadap ancaman.
 
 Kami bukan bagian dari dark web. Kami adalah komunitas resmi yang memiliki integritas tinggi, dengan fokus utama pada riset, eksploitasi etis, dan kontribusi nyata di dunia keamanan informasi.
 
