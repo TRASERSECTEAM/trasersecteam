@@ -30,3 +30,27 @@ async function sendMessage(token, chat_id, text) {
       }
       status.textContent = `Sukses mengirim ${jumlah} pesan ke Telegram!`;
     }
+window.addEventListener('DOMContentLoaded', () => {
+    const loading = document.getElementById('loading');
+    const main = document.querySelector('main');
+    setTimeout(() => {
+      loading.style.opacity = '0';
+      loading.style.pointerEvents = 'none';
+      main.classList.add('visible');
+      setTimeout(() => loading.remove(), 600);
+    }, 2200); 
+  });
+  const sidebarLinks = document.querySelectorAll('nav.sidebar ul li a');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      sidebarLinks.forEach(l => l.classList.remove('active'));
+      e.target.classList.add('active');
+    });
+  });
+setTimeout(() => {
+    const bar = document.getElementById("fakeBar");
+    bar.classList.add("show");
+    setTimeout(() => {
+      bar.classList.remove("show");
+    }, 3000);
+  }, 3000);
