@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>YanRes | Absensi Otomatis</title>
+  
+  <!-- ✅ SEO Meta Tags -->
+  <meta name="description" content="Sistem Absensi Otomatis oleh YanRes. Mudah, cepat, dan tercatat secara realtime. Hanya bisa absen 2x per hari.">
+  <meta name="keywords" content="absensi online, YanRes, sistem absen, absensi realtime, firebase absensi, web absen">
+  <meta name="author" content="YanRes Dev Team">
+  <meta name="robots" content="index, follow">
 
+  <!-- 📱 Web App Settings -->
+  <meta name="theme-color" content="#1e90ff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Absensi YanRes">
+
+  <!-- 🧠 Open Graph (for Social Media) -->
+  <meta property="og:title" content="YanRes | Absensi Otomatis">
+  <meta property="og:description" content="Absensi realtime hanya 2x per hari. Dibuat oleh YanRes. Modern & cepat.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://files.catbox.moe/xy2p49.jpg">
+  <meta property="og:url" content="https://trasersecteam.my.id">
+
+  <!-- 🐦 Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="YanRes | Absensi Otomatis">
+  <meta name="twitter:description" content="Sistem absensi online otomatis dengan batas 2x per hari.">
+  <meta name="twitter:image" content="https://files.catbox.moe/xy2p49.jpg">
+  <link rel="icon" href="https://files.catbox.moe/xy2p49.jpg" />
+  <link rel="apple-touch-icon" href="https://files.catbox.moe/xy2p49.jpg">
+  <style>
+    body {
+      margin: 0;
+      background: #0e0e0e;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h3 {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1677cc;
+    }
+
+    .counter {
+      margin-top: 10px;
+      color: #00ffcc;
+      font-size: 15px;
+    }
+
+    .header {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+    }
+
+    .line {
+      border-top: 2px solid #333;
+      margin: 8px 0 16px;
+    }
+
+    .absen-container {
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .entry {
+      background: #1a1a1a;
+      border-left: 4px solid #1e90ff;
+      padding: 6px 10px;
+      margin-bottom: 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Sistem Absensi YanRes</h3>
+  <button onclick="submitAbsen()">Absen Sekarang</button>
+  <div id="absenCounter" class="counter">Total Absen: 0 kali</div>
+
+  <div class="header">
+    © Copyright by YanRes | Service By Server | Alright Chapter | Support System
+  </div>
+  <div class="line"></div>
+
+  <div id="absenContainer" class="absen-container"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyBVMpOCjY9gdd4UkSa",
+    authDomain: "yanofc-1ecd3.firebaseapp.com",
+    databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "yanofc-1ecd3",
+    storageBucket: "yanofc-1ecd3.appspot.com",
+    messagingSenderId: "843043156565",
+    appId: "1:843043156565:web:e00942a837d30e4b4a9adc"
+  };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const absenContainer = document.getElementById("absenContainer");
+    const absenCounter = document.getElementById("absenCounter");
+    let totalAbsen = 0;
+    db.ref("absensi").on("child_added", function(snapshot) {
+      const data = snapshot.val();
+      totalAbsen++;
+      absenCounter.textContent = ` Total Absen: ${totalAbsen} kali`;
+      const baris = `${data.waktu} | ${data.kolom1} | ${data.kolom2} | ${data.kolom3}`;
+      const div = document.createElement("div");
+      div.className = "entry";
+      div.textContent = baris;
+      absenContainer.prepend(div);
+    });
+    function submitAbsen() {
+      const now = new Date();
+      const tanggal = now.toLocaleDateString('id-ID', { weekday: 'short', day: '2-digit', month: 'short' });
+      const jam = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      const tanggalKey = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+      const localData = JSON.parse(localStorage.getItem('absenData')) || {};
+      const absenHariIni = localData[tanggalKey] || 0;
+
+      if (absenHariIni >= 2) {
+        alert(" Kamu sudah absen 2 kali hari ini!");
+        return;
+      }
+
+      const absenBaris = {
+        waktu: `${tanggal} - ${jam}`,
+        kolom1: "absen",
+        kolom2: "absen",
+        kolom3: "absen"
+      };      db.ref("absensi").push(absenBaris);
+      localData[tanggalKey] = absenHariIni + 1;
+      localStorage.setItem('absenData', JSON.stringify(localData));
+    }
+  </script>
+</body>
+</html>
