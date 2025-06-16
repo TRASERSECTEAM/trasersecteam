@@ -54,3 +54,98 @@ setTimeout(() => {
       bar.classList.remove("show");
     }, 3000);
   }, 3000);
+const firebaseConfig = {
+      apiKey: "AIzaSyBVMpOCjY9gdd4UkSa",
+        authDomain: "yanofc-1ecd3.firebaseapp.com",
+        databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "yanofc-1ecd3",
+        storageBucket: "yanofc-1ecd3.appspot.com",
+        messagingSenderId: "843043156565",
+        appId: "1:843043156565:web:e00942a837d30e4b4a9adc"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    let userIP = '';   fetch('https://api.db-ip.com/v2/free/self')
+      .then(res => res.json())
+      .then(data => {
+        userIP = data.ipAddress;
+        const loc = data.city + ', ' + data.stateProv;
+        const country = data.countryName;
+        const isp = data.organization || 'Unknown';
+        const time = new Date().toLocaleTimeString();
+
+        const status = document.getElementById('statusBox');
+        status.innerHTML = `
+          <strong>IP Address:</strong> ${userIP}<br>
+          <strong>Lokasi:</strong> ${loc} (${country})<br>
+          <strong>ISP:</strong> ${isp}<br>
+          <strong>Jam:</strong> ${time}<br>
+          <strong>Battery:</strong> Memuat...
+        `;
+        loadComments();
+      });
+
+    if (navigator.getBattery) {
+      navigator.getBattery().then(battery => {
+        const batLevel = Math.round(battery.level * 100) + '%';
+        const charging = battery.charging ? 'Mengisi' : 'Tidak Mengisi';
+        const status = document.getElementById('statusBox');
+        setTimeout(() => {
+          status.innerHTML = status.innerHTML.replace('Battery:</strong> Memuat...', `Battery:</strong> ${batLevel} (${charging})`);
+        }, 1000);
+      });
+    }
+    function sanitize(str) {
+      return str.replace(/[&<>"']/g, function(m) {
+        return ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        })[m];
+      });
+    }
+    function submitComment() {
+      const input = document.getElementById('commentInput');
+     const comment = sanitize(input.value.trim());
+if (comment.length === 0) return;
+
+if (comment.length > 10) {
+  alert("Komentar maksimal 10 karakter!");
+  return;
+}
+      const safeIP = userIP.replace(/\./g, '_');
+const commentRef = db.ref("comments/" + safeIP);
+      commentRef.once('value').then(snapshot => {
+        if (snapshot.exists()) {
+          alert("Kamu sudah pernah komentar.");
+        } else {
+          commentRef.set({
+            ip: userIP,
+            text: comment,
+            time: new Date().toLocaleString()
+          });
+          input.value = '';
+          loadComments();
+        }
+      });
+    }
+    function loadComments() {
+      const list = document.getElementById("commentList");
+      list.innerHTML = '';
+      db.ref("comments").once("value", snapshot => {
+        snapshot.forEach(child => {
+          const data = child.val();
+          const div = document.createElement("div");
+          div.className = "comment";
+          div.innerHTML = `<strong>${data.ip}</strong>: ${sanitize(data.text)}`;
+          list.appendChild(div);
+        });
+      });
+      }
+document.querySelectorAll('button, .social-button, .tombol, a').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.add('glitch-out');
+    });
+  });
