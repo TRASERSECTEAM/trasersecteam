@@ -90,16 +90,16 @@
  <div class="info-box" id="statusBox">Status: Memuat data...</div>
  <div class="button-container">
      
-    <a href="q.html" class="button">Pis1n9 Cam</a>
-    <a href="https://module-traser.is-great.net/" class="button">Check</a>
-    <a href="https://module-traser.is-great.net/track.html" class="button">Track Ip</a>
+    <a data-href="q.html" class="button">Pis1n9 Cam</a>
+    <a data-href="https://module-traser.is-great.net/" class="button">Check</a>
+    <a data-href="https://module-traser.is-great.net/track.html" class="button">Track Ip</a>
     <a href="https://module-traser.is-great.net/enc/" class="button">Enc Html</a>
-     <a href="https://zone-indonet.rf.gd/has.php" class="button">Path Scan</a>
+     <a data-href="https://zone-indonet.rf.gd/has.php" class="button">Path Scan</a>
      <a href="https://module-traser.is-great.net/short.php" class="button">Short Link</a>
-     <a href="https://module-traser.is-great.net/server/apiv1.html" class="button">Zone 18</a>
-     <a href="csrf.html" class="button">CSRF Uploader</a>
-     <a href="q1.html" class="button">Pis1n9 l0g1n</a>
-      <a href="myapi.html" class="button">Api Nsfw</a>
+     <a data-href="https://module-traser.is-great.net/server/apiv1.html" class="button">Zone 18</a>
+     <a data-href="csrf.html" class="button">CSRF Uploader</a>
+     <a data-href="q1.html" class="button">Pis1n9 l0g1n</a>
+      <a data-href="myapi.html" class="button">Api Nsfw</a>
   </div>
    <div class="info-box"
    <h2>Telegram Spam Sender</h2>
@@ -280,13 +280,31 @@ function App() {
 </div>
     </div>
   </div>
-   <div style="display: flex; justify-content: center; margin-top: 30px;">
-  <div style="border: 2px solid #333; border-radius: 12px; padding: 10px; background: #111;">
-    <div id="container-71def8ad047a5a1113cdde95e7b2a787"></div>
-  </div>
+  
+<div id="iklanArea" style="display:none; margin-top:20px; text-align:center;">
+  <iframe src="//www.profitabledisplaynetwork.com/26834571/invoke.js" width="300" height="250" style="border:none;"></iframe>
+  <p style="color:white;">Tunggu 10 detik...</p>
 </div>
 
-<script async="async" data-cfasync="false" src="//pl26935070.profitableratecpm.com/71def8ad047a5a1113cdde95e7b2a787/invoke.js"></script>
+<script> document.querySelectorAll("button").forEach(function(btn) {
+    const originalClick = btn.onclick;
+    btn.onclick = function(e) {
+      e.preventDefault();  document.getElementById("iklanArea").style.display = "block";
+
+      setTimeout(function() {
+        document.getElementById("iklanArea").style.display = "none";
+
+        if (typeof originalClick === "function") {
+          originalClick.call(btn);
+        } else if (btn.dataset.href) {
+          window.location.href = btn.dataset.href; 
+        } else {
+          alert("Fitur terbuka!");
+        }
+      }, 10000);
+    };
+  });
+</script>
   </section>
 </main>
 <img src="https://trasersecteam.my.id/uploads/img/1qa695.png" alt="Seram" class="ghost-image" id="ghost">
@@ -302,4 +320,4 @@ function App() {
 <script src="https://trasersecteam.my.id/JS/javascript2.js"></script>
 <script src="https://trasersecteam.my.id/JS/javascript1.js"></script>
 </body>
-                                                                                                                  </html>
+</html>
