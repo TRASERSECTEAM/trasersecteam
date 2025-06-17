@@ -77,15 +77,41 @@
   </nav>
   <section class="content">
 <audio id="click-sound" src="https://files.catbox.moe/40vall.wav" preload="auto"></audio>
-
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-  <div style="width: 320px; height: 100px; overflow: hidden; border-radius: 10px; border: 1px solid #444; background: #111; padding: 5px;">
-    <div style="text-align: center; font-size: 11px; color: #aaa;">📢 Iklan Sponsor</div>
-    <div id="container-71def8ad047a5a1113cdde95e7b2a787" style="width:100%; height:80px;"></div>
-  </div>
+<div id="iklanArea" style="display:none; margin-top:20px; text-align:center;">
+  <div id="container-iklan"></div>
+  <p style="color:white;">Tunggu 10 detik...</p>
 </div>
 
-<script async="async" data-cfasync="false" src="//pl26935070.profitableratecpm.com/71def8ad047a5a1113cdde95e7b2a787/invoke.js"></script>
+<script>
+  document.querySelectorAll("button").forEach(function(btn) {
+    const originalClick = btn.onclick;
+
+    btn.onclick = function(e) {
+      e.preventDefault();
+      const container = document.getElementById("container-iklan");
+      container.innerHTML = "";
+      const script = document.createElement("script");
+      script.src = "//www.profitabledisplaynetwork.com/26834571/invoke.js";
+      script.async = true;
+      container.appendChild(script);
+
+      // Tampilkan area iklan
+      document.getElementById("iklanArea").style.display = "block";
+      setTimeout(function() {
+        document.getElementById("iklanArea").style.display = "none";
+
+        if (typeof originalClick === "function") {
+          originalClick.call(btn);
+        } else if (btn.dataset.href) {
+          window.location.href = btn.dataset.href;
+        } else {
+          alert("Fitur terbuka!");
+        }
+      }, 10000);
+    };
+  });
+</script>
+
  <p class="tombol" data-sound="https://files.catbox.moe/w06v7k.mp3">GUNAKAN AI</p>
  <div class="info-box" id="statusBox">Status: Memuat data...</div>
  <div class="button-container">
@@ -281,40 +307,7 @@ function App() {
     </div>
   </div>
   
-<div id="iklanArea" style="display:none; margin-top:20px; text-align:center;">
-  <div id="container-iklan"></div>
-  <p style="color:white;">Tunggu 10 detik...</p>
-</div>
 
-<script>
-  document.querySelectorAll("button").forEach(function(btn) {
-    const originalClick = btn.onclick;
-
-    btn.onclick = function(e) {
-      e.preventDefault();
-      const container = document.getElementById("container-iklan");
-      container.innerHTML = "";
-      const script = document.createElement("script");
-      script.src = "//www.profitabledisplaynetwork.com/26834571/invoke.js";
-      script.async = true;
-      container.appendChild(script);
-
-      // Tampilkan area iklan
-      document.getElementById("iklanArea").style.display = "block";
-      setTimeout(function() {
-        document.getElementById("iklanArea").style.display = "none";
-
-        if (typeof originalClick === "function") {
-          originalClick.call(btn);
-        } else if (btn.dataset.href) {
-          window.location.href = btn.dataset.href;
-        } else {
-          alert("Fitur terbuka!");
-        }
-      }, 10000);
-    };
-  });
-</script>
   </section>
 </main>
 <img src="https://trasersecteam.my.id/uploads/img/1qa695.png" alt="Seram" class="ghost-image" id="ghost">
