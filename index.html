@@ -282,23 +282,32 @@ function App() {
   </div>
   
 <div id="iklanArea" style="display:none; margin-top:20px; text-align:center;">
-  <div id="container-26834571" style="margin-bottom:10px;"></div>
-  <script async="async" type="text/javascript" src="//www.profitabledisplaynetwork.com/26834571/invoke.js"></script>
+  <div id="container-iklan"></div>
   <p style="color:white;">Tunggu 10 detik...</p>
 </div>
 
-<script> document.querySelectorAll("button").forEach(function(btn) {
+<script>
+  document.querySelectorAll("button").forEach(function(btn) {
     const originalClick = btn.onclick;
-    btn.onclick = function(e) {
-      e.preventDefault();  document.getElementById("iklanArea").style.display = "block";
 
+    btn.onclick = function(e) {
+      e.preventDefault();
+      const container = document.getElementById("container-iklan");
+      container.innerHTML = "";
+      const script = document.createElement("script");
+      script.src = "//www.profitabledisplaynetwork.com/26834571/invoke.js";
+      script.async = true;
+      container.appendChild(script);
+
+      // Tampilkan area iklan
+      document.getElementById("iklanArea").style.display = "block";
       setTimeout(function() {
         document.getElementById("iklanArea").style.display = "none";
 
         if (typeof originalClick === "function") {
           originalClick.call(btn);
         } else if (btn.dataset.href) {
-          window.location.href = btn.dataset.href; 
+          window.location.href = btn.dataset.href;
         } else {
           alert("Fitur terbuka!");
         }
