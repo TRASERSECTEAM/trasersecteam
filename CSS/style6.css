@@ -514,7 +514,7 @@ body {
     align-items: center;
     gap: 8px;
     position: fixed;
-    bottom: 100px; /* ⬅️ TURUNIN INI DARI 0 KE 8PX ATAU LEBIH BIAR NAIK DI LAYAR */
+    bottom: 8px; /* ⬅️ TURUNIN INI DARI 0 KE 8PX ATAU LEBIH BIAR NAIK DI LAYAR */
     left: 0;
     right: 0;
     z-index: 999;
@@ -528,7 +528,7 @@ body {
     padding: 8px;
     cursor: pointer;
     color: #54656f;
-    font-size: 20px;
+    font-size: 6px;
     transition: color 0.3s;
 }
 
@@ -553,7 +553,7 @@ body {
     border: none;
     outline: none;
     padding: 8px 0;
-    font-size: 14px;
+    font-size: 10px;
     background: transparent;
     color: #111;
 }
