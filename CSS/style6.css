@@ -9,14 +9,11 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     background-color: #f0f2f5;
     height: 100vh;
-    overflow: auto; /* 💥 FIX INI */
+    overflow: auto; 
 }
-
 .hidden {
     display: none !important;
 }
-
-/* Welcome Screen */
 .welcome-screen {
     position: fixed;
     top: 0;
@@ -367,8 +364,11 @@ body {
     align-items: center;
     gap: 12px;
     border-bottom: 1px solid #e0e0e0;
-}
 
+    position: sticky;   /* ➕ nempel atas saat scroll */
+    top: 0;
+    z-index: 1000;
+}
 .back-btn {
     background: none;
     border: none;
@@ -502,7 +502,7 @@ body {
     background: rgba(0, 0, 0, 0.1);
     color: #666;
       padding-bottom: 120px;
-    font-size: 12px;
+    font-size: 30px;
     padding: 4px 12px;
     border-radius: 12px;
     margin: 8px 0;
@@ -529,7 +529,7 @@ body {
     padding: 8px;
     cursor: pointer;
     color: #54656f;
-    font-size: 6px;
+    font-size: 12px;
     transition: color 0.3s;
 }
 
