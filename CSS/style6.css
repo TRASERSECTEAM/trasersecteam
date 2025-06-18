@@ -507,22 +507,34 @@ body {
     margin: 8px 0;
 }
 
-/* Message Input */
 .message-input-container {
     background: #f0f2f5;
-    padding: 12px;
+    padding: 8px 12px;
     display: flex;
     align-items: center;
     gap: 8px;
+    position: fixed;
+    bottom: 100px; /* ⬅️ TURUNIN INI DARI 0 KE 8PX ATAU LEBIH BIAR NAIK DI LAYAR */
+    left: 0;
+    right: 0;
+    z-index: 999;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
 }
 
-.attach-btn {
+.attach-btn,
+.emoji-btn {
     background: none;
     border: none;
     padding: 8px;
     cursor: pointer;
     color: #54656f;
     font-size: 20px;
+    transition: color 0.3s;
+}
+
+.attach-btn:hover,
+.emoji-btn:hover {
+    color: #3b4a54;
 }
 
 .message-input-wrapper {
@@ -532,40 +544,37 @@ body {
     align-items: center;
     background: white;
     border-radius: 20px;
-    padding: 0 16px;
+    padding: 6px 16px;
+    border: 1px solid #ccc;
 }
 
 #message-input {
     flex: 1;
     border: none;
     outline: none;
-    padding: 9px 0;
-    font-size: 10px;
+    padding: 8px 0;
+    font-size: 14px;
     background: transparent;
-}
-
-.emoji-btn {
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    color: #54656f;
-    font-size: 20px;
+    color: #111;
 }
 
 .send-btn {
     background: #25d366;
     color: white;
     border: none;
-    padding: 12px;
+    padding: 10px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 10px;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .send-btn:hover {
     background: #128c7e;
+    transform: scale(1.05);
 }
 
 /* Modals */
