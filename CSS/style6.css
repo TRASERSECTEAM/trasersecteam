@@ -409,12 +409,14 @@ body {
     gap: 8px;
 }
 
-/* Messages */
 .messages-container {
     flex: 1;
+    padding: 16px;
+    padding-bottom: 120px;
     overflow-y: auto;
     background: linear-gradient(180deg, #e5ddd5, #ddd6ce);
     position: relative;
+
     background-image: 
         radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
         radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
@@ -430,6 +432,7 @@ body {
 
 .message {
     max-width: 60%;
+      
     margin-bottom: 12px;
     word-wrap: break-word;
 }
@@ -462,6 +465,7 @@ body {
 .message-text {
     font-size: 14px;
     line-height: 1.4;
+      
     margin-bottom: 4px;
     color: #333;
 }
@@ -487,20 +491,17 @@ body {
 .message-status.read {
     color: #25d366;
 }
-
-/* Group Message */
 .group-message .message-sender {
     font-size: 12px;
     font-weight: 500;
     color: #25d366;
     margin-bottom: 2px;
 }
-
-/* System Message */
 .system-message {
     align-self: center;
     background: rgba(0, 0, 0, 0.1);
     color: #666;
+      padding-bottom: 120px;
     font-size: 12px;
     padding: 4px 12px;
     border-radius: 12px;
@@ -514,7 +515,7 @@ body {
     align-items: center;
     gap: 8px;
     position: fixed;
-    bottom: 8px; /* ⬅️ TURUNIN INI DARI 0 KE 8PX ATAU LEBIH BIAR NAIK DI LAYAR */
+    bottom: 0px; 
     left: 0;
     right: 0;
     z-index: 999;
@@ -786,6 +787,7 @@ body {
     
     .chat-area {
         width: 100%;
+        
     }
     
     .back-btn {
@@ -806,6 +808,7 @@ body {
     
     .message {
         max-width: 80%;
+        
     }
     
     .welcome-container {
@@ -832,6 +835,7 @@ body {
     
     .message-input-container {
         padding: 8px;
+       
     }
     
     .messages {
@@ -909,6 +913,7 @@ body {
 
 .chat-item {
     animation: fadeIn 0.3s ease-out;
+   
 }
 
 /* Status Indicators */
