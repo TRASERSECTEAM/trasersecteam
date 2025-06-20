@@ -4,7 +4,6 @@ let currentChatId = null;
 let chats = {};
 let contacts = {};
 let messagesListeners = {};
-el.scrollTo({top: el.scrollHeight, behavior: 'smooth'});
 
 // DOM elements
 const welcomeScreen = document.getElementById('welcome-screen');
