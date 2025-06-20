@@ -238,15 +238,20 @@
             visibility: visible;
         }
 
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 8px;
-            background: #0e1621;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%);
-        }
+        messages-container {
+    flex: 1;
+    padding: 16px;
+    padding-bottom: 120px;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #e5ddd5, #ddd6ce);
+    position: relative;
+
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 100px 100px, 50px 50px;
+}
+
 
         .message {
             margin-bottom: 8px;
