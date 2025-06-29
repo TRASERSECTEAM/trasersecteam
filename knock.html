@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>TRASER SEC TEAM</title>
+  <style>
+    @keyframes blink {
+      0% { color: red; }
+      50% { color: yellow; }
+      100% { color: red; }
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-1px, 1px); }
+      80% { transform: translate(1px, -1px); }
+      100% { transform: translate(0); }
+    }
+
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .warning {
+      font-size: 28px;
+      animation: blink 0.1s infinite;
+      font-weight: bold;
+    }
+
+    .glitch-text {
+      font-size: 20px;
+      color: red;
+      animation: glitch 0.3s infinite;
+      margin-top: 30px;
+    }
+
+    .box {
+      border: 2px solid red;
+      padding: 20px;
+      margin-top: 50px;
+      background: rgba(255,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 20px red;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .subtext {
+      margin-top: 20px;
+      color: #fdd;
+      font-size: 16px;
+    }
+
+    .footer {
+      margin-top: 60px;
+      font-size: 12px;
+      color: #444;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="warning">TRASER SEC TEAM</div>
+
+  <div class="box">
+    <div class="glitch-text">
+      JIKA TIDAK MAU DISEBARKAN<br>
+      <b style="font-size: 24px;">TRANSFER 50K SEKARANG!</b>
+    </div>
+    <div class="subtext">
+      Kami telah mengambil data kamera kamu secara otomatis.<br>
+      Waktu kamu tersisa: <span style="color: yellow;">02:59</span> menit
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2025 AnonSec404 | TRASER SEC TEAM
+  </div>
+
+</body>
+</html>
