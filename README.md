@@ -1,84 +1,56 @@
-<h1 align="center" style="font-family:'Courier New', monospace; color:#00ffe7; font-size:36px; text-shadow:0 0 10px #0ff;">
-  TRASER SEC TEAM
-</h1>
+[![MastHead](https://raw.githubusercontent.com/trasersecteam/trasersecteam/main/assets/banner.png)](https://trasersecteam.my.id)
 
-<div align="center">
-  <svg viewBox="0 0 500 100" width="90%" height="100">
-    <path d="M0,50 Q50,0 100,50 T200,50 T300,50 T400,50 T500,50" fill="transparent" stroke="#00ffcc" stroke-width="3">
-      <animate attributeName="d" dur="4s" repeatCount="indefinite"
-        values="
-          M0,50 Q50,0 100,50 T200,50 T300,50 T400,50 T500,50;
-          M0,50 Q50,100 100,50 T200,50 T300,50 T400,50 T500,50;
-          M0,50 Q50,0 100,50 T200,50 T300,50 T400,50 T500,50" />
-    </path>
-  </svg>
-</div>
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Roboto+Flex&weight=700&size=40&pause=500&color=000000&center=true&vCenter=true&multiline=true&width=1000&height=100&lines=Hi+There!+%F0%9F%91%8B%2C+We+are+Traser+Sec+Team)](https://trasersecteam.my.id)
 
+<h3 align="left">🧑‍💻 Kami adalah komunitas independen, pecinta teknologi, dan pembelajar sepanjang hayat yang tertarik pada Hacking, Automation, FullStack, AI, dan Cybersecurity</h3>
+
+- 🌱 Saat ini kami sedang fokus pada **Automation Tools, JavaScript, Python, dan OSINT Framework**
+- 👨‍💻 Semua project kami tersedia di **[https://github.com/trasersecteam?tab=repositories](https://github.com/trasersecteam?tab=repositories)**
+- 📝 Kami juga menulis di blog kami **[https://trasersecteam.my.id](https://trasersecteam.my.id)**
+- 💬 Kami ahli dalam **Linux, Terminal, Node.js, dan Cyber Investigasi**
+- 📫 Hubungi kami via email: **admin@trasersecteam.my.id**
+- ⚡ Fun fact: **Kami tidak hanya menyerang, tapi juga membangun**
+
+<hr>
+
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sven-bo/sven-bo/output/github-contribution-grid-snake-dark.svg">
+<source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/sven-bo/sven-bo/output/github-contribution-grid-snake.svg">
+<img alt="github align="center" contribution grid snake animation" src="https://raw.githubusercontent.com/sven-bo/sven-bo/output/github-contribution-grid-snake.svg">
+</picture><br><br>
+
+## 🗣️ Bahasa Pemrograman yang Dipakai
+<p align="center">
+  <br>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/php/php-original.svg" alt="php" width="40" height="40"/>&nbsp;&nbsp;  
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/rust/rust-original.svg" alt="rust" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/lua/lua-original.svg" alt="lua" width="40" height="40"/>&nbsp;&nbsp;
+</p><br>
+
+## ⚙️ Tools yang Dipakai
+<p align="center">
+  <br>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/vim/vim-original.svg" alt="vim" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/trasersecteam/trasersecteam/main/assets/visual-studio-code-svgrepo-com.svg" alt="vscode" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/>&nbsp;&nbsp;  
+  <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/github/github-original-wordmark.svg" alt="github" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/jupyter/jupyter-original-wordmark.svg" alt="jupyter" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/streamlit/streamlit-original.svg" alt="streamlit" width="40" height="40"/>&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/trasersecteam/trasersecteam/main/assets/Roblox_Studio_logo_-_2022.svg" alt="roblox-studio" width="40" height="40"/>&nbsp;&nbsp;
+</p>
+
+## 📝 Statistik Repositori
+<p align="center">
 <br>
-
-<div style="color:#d4d4d4; font-family:'Segoe UI', sans-serif; line-height:1.7; font-size:16px; background:#0a0a0a; padding:30px; border-radius:12px; box-shadow:0 0 20px rgba(0,255,255,0.1);">
-
-<h2 style="color:#00ffff;">Tentang Kami</h2>
-<p>TRASER SEC TEAM adalah tim defacer independen yang fokus pada analisis, edukasi, serta pengembangan teknologi keamanan informasi. Didirikan oleh individu-individu berpengalaman di bidang keamanan siber, kami berkomitmen untuk membangun ruang digital yang lebih aman, terbuka, dan tangguh terhadap ancaman.</p>
-
-<p>Kami bukan bagian dari dark web. Kami adalah komunitas resmi yang memiliki integritas tinggi, dengan fokus utama pada riset, eksploitasi etis, dan kontribusi nyata di dunia keamanan informasi.</p>
-
-<h2 style="color:#00ffff;">Misi Kami</h2>
-<ul>
-  <li>Menyediakan edukasi dan pelatihan seputar keamanan siber secara terbuka dan berkualitas.</li>
-  <li>Mengembangkan tool dan sistem untuk mendeteksi, menganalisis, serta mengamankan berbagai platform digital.</li>
-  <li>Berkontribusi dalam pelaporan bug, celah keamanan, dan penelitian eksploit yang bertanggung jawab.</li>
-  <li>Menginspirasi komunitas agar sadar akan pentingnya perlindungan data dan privasi.</li>
-</ul>
-
-<h2 style="color:#00ffff;">Fitur Web Resmi</h2>
-<ul>
-  <li>Dokumentasi dan publikasi riset keamanan</li>
-  <li>Tools dan utilities yang dikembangkan oleh tim kami</li>
-  <li>Showcase exploit dan demonstrasi proof-of-concept</li>
-  <li>Forum dan komunitas diskusi terbuka</li>
-  <li>Arsip laporan keamanan dan case studies</li>
-</ul>
-
-<h2 style="color:#00ffff;">Kenapa Memilih TRASER SEC TEAM</h2>
-<ul>
-  <li>Tim terdiri dari praktisi profesional dan riset aktif</li>
-  <li>Berpengalaman dalam berbagai domain: web, jaringan, reverse engineering, malware analysis, dan cloud security</li>
-  <li>Etika tinggi dalam disclosure dan pengujian sistem</li>
-  <li>Fokus pada edukasi dan inovasi, bukan sensasi</li>
-</ul>
-
-<h2 style="color:#00ffff;">Siapa yang Cocok Bergabung</h2>
-<ul>
-  <li>Pengembang atau peneliti yang ingin belajar lebih dalam tentang cybersec</li>
-  <li>Pemilik sistem atau platform yang ingin melakukan pengujian keamanan</li>
-  <li>Penulis, kreator, dan edukator yang peduli dengan isu privasi digital</li>
-  <li>Siapa pun yang ingin berkontribusi secara positif di ranah cybersecurity</li>
-</ul>
-
-<h2 style="color:#00ffff;">Kontak Resmi</h2>
-<table style="width:100%; color:#ffffff; font-size:15px;">
-  <tr>
-    <td style="padding: 6px 0; color:#00ffee;">📧 Email</td>
-    <td>: anon404ganteng@protonmail.com</td>
-  </tr>
-  <tr>
-    <td style="padding: 6px 0; color:#00ffee;">📱 WhatsApp</td>
-    <td>: +6288294597253</td>
-  </tr>
-  <tr>
-    <td style="padding: 6px 0; color:#00ffee;">🌐 Web Utama</td>
-    <td>: <a href="https://trasersecteam.my.id" style="color:#00ffff;">https://trasersecteam.my.id</a></td>
-  </tr>
-  <tr>
-    <td style="padding: 6px 0; color:#00ffee;">🛰️ Backend Server</td>
-    <td>: <a href="https://server-traser.web.id" style="color:#00ffff;">https://server-traser.web.id</a></td>
-  </tr>
-</table>
-
-<h2 style="color:#00ffff;">Disclaimer</h2>
-<p>Semua konten yang dipublikasikan dalam website resmi TRASER SEC TEAM disediakan untuk tujuan edukasi, riset, dan pengujian sistem secara legal. Kami tidak mendorong atau mendukung aktivitas ilegal dalam bentuk apa pun.</p>
-
-<p style="margin-top:20px; color:#00ffe0;">Terima kasih telah mengunjungi platform resmi kami. Bersama kita bisa menjadikan dunia digital lebih aman.</p>
-
-</div>
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=trasersecteam&layout=pie&langs_count=6&theme=graywhite"/>
+</p>
