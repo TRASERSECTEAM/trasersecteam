@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Intelligence Dashboard</title>
+    <meta name="description" content="Dashboard modern untuk deteksi bot Telegram, manajemen user, dan pengiriman media menggunakan Telegram API">
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-lighter: #1e293b;
+            --dark-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #475569;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 25px rgba(0,0,0,0.2);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundMove 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background: var(--dark-lighter);
+            transform: scale(1.1);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            border-right: 1px solid var(--border);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .sidebar-nav i {
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        /* Feature Cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(51, 65, 85, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-card h3 i {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .bot-detection h3 { color: var(--primary); }
+        .user-detection h3 { color: var(--secondary); }
+        .media-sender h3 { color: var(--accent); }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: rgba(30, 41, 59, 1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px dashed var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover .file-upload-label,
+        .file-upload-label.dragover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .file-upload i {
+            margin-right: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-accent {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Results */
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .result-success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--success);
+        }
+
+        .result-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+
+        .result-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-lighter);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--dark-card);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1002;
+            max-width: 300px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-robot"></i>
+            Telegram Intelligence
+        </div>
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">Menu Navigasi</h3>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#" class="active" onclick="showSection('home')"><i class="fas fa-home"></i>Beranda</a></li>
+            <li><a href="#" onclick="showSection('bot-detection')"><i class="fas fa-robot"></i>Deteksi Bot</a></li>
+            <li><a href="#" onclick="showSection('user-detection')"><i class="fas fa-users"></i>Deteksi User</a></li>
+            <li><a href="#" onclick="showSection('media-sender')"><i class="fas fa-paper-plane"></i>Kirim Media</a></li>
+            <li><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i>Pengaturan</a></li>
+            <li><a href="#" onclick="showSection('help')"><i class="fas fa-question-circle"></i>Bantuan</a></li>
+        </ul>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Telegram Intelligence Dashboard</h1>
+            <p>Platform modern untuk deteksi bot, manajemen user, dan pengiriman media Telegram</p>
+        </div>
+
+        <!-- Home Section -->
+        <section id="home-section">
+            <div class="features">
+                <!-- Bot Detection Card -->
+                <div class="feature-card bot-detection fade-in">
+                    <h3><i class="fas fa-robot"></i>Deteksi BOT</h3>
+                    <form id="bot-detection-form">
+                        <div class="form-group">
+                            <label class="form-label">Bot Token</label>
+                            <input type="text" class="form-input" id="bot-token" placeholder="Masukkan Bot Token" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                            Cek Bot
+                        </button>
+                    </form>
+                    <div class="result" id="bot-result"></div>
+                </div>
+
+                <!-- User Detection Card -->
+                <div class="feature-card user-detection fade-in">
+                    <h3><i class="fas fa-users"></i>Deteksi USER</h3>
+                    <form id="user-detection-form">
+                        <div class="form-group">
+                            <label class="form-label">Bot Token</label>
+                            <input type="text" class="form-input" id="user-bot-token" placeholder="Masukkan Bot Token" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Chat ID</label>
+                            <input type="text" class="form-input" id="chat-id" placeholder="Masukkan Chat ID" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-user-check"></i>
+                            Cek User
+                        </button>
+                    </form>
+                    <div class="result" id="user-result"></div>
+                </div>
+
+                <!-- Media Sender Card -->
+                <div class="feature-card media-sender fade-in">
+                    <h3><i class="fas fa-paper-plane"></i>Kirim Media ke Bot</h3>
+                    <form id="media-sender-form">
+                        <div class="form-group">
+                            <label class="form-label">Bot Token</label>
+                            <input type="text" class="form-input" id="media-bot-token" placeholder="Masukkan Bot Token" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Chat ID Tujuan</label>
+                            <input type="text" class="form-input" id="target-chat-id" placeholder="Masukkan Chat ID Tujuan" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jenis Media</label>
+                            <select class="form-select" id="media-type" required>
+                                <option value="">Pilih Jenis Media</option>
+                                <option value="photo">Kirim Foto</option>
+                                <option value="video">Kirim Video</option>
+                                <option value="document">Kirim Dokumen</option>
+                                <option value="audio">Kirim Audio</option>
+                                <option value="voice">Kirim Voice Note</option>
+                                <option value="sticker">Kirim Sticker</option>
+                                <option value="animation">Kirim GIF</option>
+                                <option value="message">Kirim Pesan Text</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="file-upload-group">
+                            <label class="form-label">Pilih File</label>
+                            <div class="file-upload">
+                                <input type="file" id="media-file" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt">
+                                <label class="file-upload-label" for="media-file">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Pilih File atau Drag & Drop</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="message-group" style="display: none;">
+                            <label class="form-label">Pesan Text</label>
+                            <textarea class="form-input" id="message-text" placeholder="Masukkan pesan yang ingin dikirim" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Caption (Opsional)</label>
+                            <textarea class="form-input" id="caption" placeholder="Masukkan caption untuk media" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-accent">
+                            <i class="fas fa-paper-plane"></i>
+                            Kirim Media
+                        </button>
+                    </form>
+                    <div class="result" id="media-result"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-section" style="display: none;">
+            <div class="feature-card fade-in">
+                <h3><i class="fas fa-cog"></i>Pengaturan</h3>
+                <div class="form-group">
+                    <label class="form-label">Default Bot Token</label>
+                    <input type="text" class="form-input" id="default-token" placeholder="Token bot default untuk semua operasi">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Timeout Request (detik)</label>
+                    <input type="number" class="form-input" id="timeout" value="30" min="5" max="120">
+                </div>
+                <button class="btn btn-primary" onclick="saveSettings()">
+                    <i class="fas fa-save"></i>
+                    Simpan Pengaturan
+                </button>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section id="help-section" style="display: none;">
+            <div class="feature-card fade-in">
+                <h3><i class="fas fa-question-circle"></i>Bantuan & Panduan</h3>
+                <div style="line-height: 1.8;">
+                    <h4 style="color: var(--primary); margin: 1rem 0;">Cara Mendapatkan Bot Token:</h4>
+                    <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Buka Telegram dan cari @BotFather</li>
+                        <li>Ketik /newbot untuk membuat bot baru</li>
+                        <li>Ikuti instruksi untuk memberi nama bot</li>
+                        <li>Copy token yang diberikan</li>
+                    </ol>
+                    
+                    <h4 style="color: var(--secondary); margin: 1rem 0;">Cara Mendapatkan Chat ID:</h4>
+                    <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li>Tambahkan bot ke grup atau kirim pesan ke bot</li>
+                        <li>Buka: https://api.telegram.org/bot[TOKEN]/getUpdates</li>
+                        <li>Ganti [TOKEN] dengan token bot Anda</li>
+                        <li>Cari chat ID dalam response JSON</li>
+                    </ol>
+
+                    <h4 style="color: var(--accent); margin: 1rem 0;">Format File yang Didukung:</h4>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><strong>Foto:</strong> JPG, PNG, WebP (max 10MB)</li>
+                        <li><strong>Video:</strong> MP4, AVI, MOV (max 50MB)</li>
+                        <li><strong>Audio:</strong> MP3, WAV, OGG (max 50MB)</li>
+                        <li><strong>Dokumen:</strong> PDF, DOC, TXT (max 50MB)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast"></div>
+
+    <script>
+
+        const API_BASE = 'https://api.telegram.org/bot';
+        let defaultSettings = {
+            defaultToken: '',
+            timeout: 30
+        };
+
+
+        function loadSettings() {
+            const saved = localStorage.getItem('telegramSettings');
+            if (saved) {
+                defaultSettings = JSON.parse(saved);
+                document.getElementById('default-token').value = defaultSettings.defaultToken;
+                document.getElementById('timeout').value = defaultSettings.timeout;
+            }
+        }
+
+
+        function saveSettings() {
+            defaultSettings.defaultToken = document.getElementById('default-token').value;
+            defaultSettings.timeout = document.getElementById('timeout').value;
+            localStorage.setItem('telegramSettings', JSON.stringify(defaultSettings));
+            showToast('Pengaturan berhasil disimpan!', 'success');
+        }
+
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+
+        function showSection(sectionName) {
+
+            const sections = ['home-section', 'settings-section', 'help-section'];
+            sections.forEach(section => {
+                document.getElementById(section).style.display = 'none';
+            });
+
+
+            if (sectionName === 'home') {
+                document.getElementById('home-section').style.display = 'block';
+            } else {
+                document.getElementById(sectionName + '-section').style.display = 'block';
+            }
+
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+
+            toggleSidebar();
+        }
+
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+
+        function showResult(elementId, message, type = 'info') {
+            const resultElement = document.getElementById(elementId);
+            resultElement.textContent = message;
+            resultElement.className = `result result-${type} show`;
+            
+            setTimeout(() => {
+                resultElement.classList.remove('show');
+            }, 10000);
+        }
+
+
+        async function makeApiRequest(url, options = {}) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), defaultSettings.timeout * 1000);
+                
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    throw new Error('Request timeout');
+                }
+                throw error;
+            }
+        }
+
+
+        document.getElementById('bot-detection-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const button = e.target.querySelector('button');
+            const originalText = button.innerHTML;
+            
+            button.classList.add('loading');
+            button.innerHTML = '<i class="fas fa-spinner"></i> Mengecek...';
+            button.disabled = true;
+
+            try {
+                const token = document.getElementById('bot-token').value;
+                if (!token) {
+                    throw new Error('Bot token diperlukan');
+                }
+
+                const response = await makeApiRequest(`${API_BASE}${token}/getMe`);
+                
+                if (response.ok) {
+                    const bot = response.result;
+                    const message = `✅ Bot ditemukan!\n\nNama: ${bot.first_name}${bot.last_name ? ' ' + bot.last_name : ''}\nUsername: @${bot.username}\nID: ${bot.id}\nStatus: ${bot.can_join_groups ? 'Dapat bergabung ke grup' : 'Hanya chat pribadi'}`;
+                    
+                    showResult('bot-result', message, 'success');
+                    showToast('Bot berhasil diverifikasi!', 'success');
+                } else {
+                    throw new Error('Bot tidak valid atau token salah');
+                }
+            } catch (error) {
+                showResult('bot-result', `❌ Error: ${error.message}`, 'error');
+                showToast('Gagal memverifikasi bot', 'error');
+            } finally {
+                button.classList.remove('loading');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        });
+
+
+        document.getElementById('user-detection-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const button = e.target.querySelector('button');
+            const originalText = button.innerHTML;
+            
+            button.classList.add('loading');
+            button.innerHTML = '<i class="fas fa-spinner"></i> Mengecek...';
+            button.disabled = true;
+
+            try {
+                const token = document.getElementById('user-bot-token').value;
+                const chatId = document.getElementById('chat-id').value;
+                
+                if (!token || !chatId) {
+                    throw new Error('Bot token dan Chat ID diperlukan');
+                }
+
+                const response = await makeApiRequest(`${API_BASE}${token}/getChat?chat_id=${chatId}`);
+                
+                if (response.ok) {
+                    const chat = response.result;
+                    let message = `✅ User/Chat ditemukan!\n\n`;
+                    
+                    if (chat.type === 'private') {
+                        message += `Nama: ${chat.first_name}${chat.last_name ? ' ' + chat.last_name : ''}\n`;
+                        if (chat.username) message += `Username: @${chat.username}\n`;
+                        message += `ID: ${chat.id}\nTipe: User Pribadi`;
+                    } else {
+                        message += `Nama Grup: ${chat.title}\n`;
+                        if (chat.username) message += `Username: @${chat.username}\n`;
+                        message += `ID: ${chat.id}\nTipe: ${chat.type}\nJumlah Member: ${chat.member_count || 'Tidak diketahui'}`;
+                    }
+                    
+                    showResult('user-result', message, 'success');
+                    showToast('User/Chat berhasil ditemukan!', 'success');
+                } else {
+                    throw new Error('User/Chat tidak ditemukan atau bot tidak memiliki akses');
+                }
+            } catch (error) {
+                showResult('user-result', `❌ Error: ${error.message}`, 'error');
+                showToast('Gagal menemukan user/chat', 'error');
+            } finally {
+                button.classList.remove('loading');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        });
+
+
+        document.getElementById('media-type').addEventListener('change', (e) => {
+            const fileGroup = document.getElementById('file-upload-group');
+            const messageGroup = document.getElementById('message-group');
+            
+            if (e.target.value === 'message') {
+                fileGroup.style.display = 'none';
+                messageGroup.style.display = 'block';
+                document.getElementById('media-file').required = false;
+                document.getElementById('message-text').required = true;
+            } else {
+                fileGroup.style.display = 'block';
+                messageGroup.style.display = 'none';
+                document.getElementById('media-file').required = true;
+                document.getElementById('message-text').required = false;
+            }
+        });
+
+
+        document.getElementById('media-file').addEventListener('change', (e) => {
+            const label = document.querySelector('.file-upload-label span');
+            const file = e.target.files[0];
+            
+            if (file) {
+                label.textContent = file.name;
+            } else {
+                label.textContent = 'Pilih File atau Drag & Drop';
+            }
+        });
+
+
+        const fileUpload = document.querySelector('.file-upload-label');
+        
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+        
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+        
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('media-file').files = files;
+                fileUpload.querySelector('span').textContent = files[0].name;
+            }
+        });
+
+
+        document.getElementById('media-sender-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const button = e.target.querySelector('button');
+            const originalText = button.innerHTML;
+            
+            button.classList.add('loading');
+            button.innerHTML = '<i class="fas fa-spinner"></i> Mengirim...';
+            button.disabled = true;
+
+            try {
+                const token = document.getElementById('media-bot-token').value;
+                const chatId = document.getElementById('target-chat-id').value;
+                const mediaType = document.getElementById('media-type').value;
+                const caption = document.getElementById('caption').value;
+                
+                if (!token || !chatId || !mediaType) {
+                    throw new Error('Bot token, Chat ID, dan jenis media diperlukan');
+                }
+
+                let response;
+                
+                if (mediaType === 'message') {
+
+                    const messageText = document.getElementById('message-text').value;
+                    if (!messageText) {
+                        throw new Error('Pesan text diperlukan');
+                    }
+                    
+                    const url = `${API_BASE}${token}/sendMessage`;
+                    const params = new URLSearchParams({
+                        chat_id: chatId,
+                        text: messageText
+                    });
+                    
+                    response = await makeApiRequest(`${url}?${params}`);
+                } else {
+                    const file = document.getElementById('media-file').files[0];
+                    if (!file) {
+                        throw new Error('File diperlukan untuk jenis media ini');
+                    }
+
+                    const formData = new FormData();
+                    formData.append('chat_id', chatId);
+                    
+
+                    const methodMap = {
+                        'photo': 'sendPhoto',
+                        'video': 'sendVideo',
+                        'document': 'sendDocument',
+                        'audio': 'sendAudio',
+                        'voice': 'sendVoice',
+                        'sticker': 'sendSticker',
+                        'animation': 'sendAnimation'
+                    };
+                    
+                    const method = methodMap[mediaType];
+                    if (!method) {
+                        throw new Error('Jenis media tidak didukung');
+                    }
+                    
+
+                    const fileParamMap = {
+                        'photo': 'photo',
+                        'video': 'video',
+                        'document': 'document',
+                        'audio': 'audio',
+                        'voice': 'voice',
+                        'sticker': 'sticker',
+                        'animation': 'animation'
+                    };
+                    
+                    formData.append(fileParamMap[mediaType], file);
+                    
+                    if (caption && mediaType !== 'voice') {
+                        formData.append('caption', caption);
+                    }
+                    
+                    const url = `${API_BASE}${token}/${method}`;
+                    response = await makeApiRequest(url, {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+                
+                if (response.ok) {
+                    const message = `✅ Media berhasil dikirim!\n\nMessage ID: ${response.result.message_id}\nTanggal: ${new Date(response.result.date * 1000).toLocaleString('id-ID')}`;
+                    showResult('media-result', message, 'success');
+                    showToast('Media berhasil dikirim!', 'success');
+                    
+
+                    document.getElementById('media-sender-form').reset();
+                    document.querySelector('.file-upload-label span').textContent = 'Pilih File atau Drag & Drop';
+                } else {
+                    throw new Error(response.description || 'Gagal mengirim media');
+                }
+            } catch (error) {
+                showResult('media-result', `❌ Error: ${error.message}`, 'error');
+                showToast('Gagal mengirim media', 'error');
+            } finally {
+                button.classList.remove('loading');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains('active')) {
+                toggleSidebar();
+            }
+        });
+
+
+        document.addEventListener('keydown', (e) => {
+
+            if (e.key === 'Escape' && document.getElementById('sidebar').classList.contains('active')) {
+                toggleSidebar();
+            }
+            
+
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('bot-token').focus();
+            }
+        });
+    </script>
+</body>
+</html>
