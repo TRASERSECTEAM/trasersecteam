@@ -1,17 +1,3 @@
-[![MastHead](https://raw.githubusercontent.com/trasersecteam/trasersecteam/main/assets/banner.png)](https://trasersecteam.my.id)
-
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Roboto+Flex&weight=700&size=40&pause=500&color=000000&center=true&vCenter=true&multiline=true&width=1000&height=100&lines=Hi+There!+%F0%9F%91%8B%2C+We+are+Traser+Sec+Team)](https://trasersecteam.my.id)
-
-<h3 align="left">🧑‍💻 Kami adalah komunitas independen, pecinta teknologi, dan pembelajar sepanjang hayat yang tertarik pada Hacking, Automation, FullStack, AI, dan Cybersecurity</h3>
-
-- 🌱 Saat ini kami sedang fokus pada **Automation Tools, JavaScript, Python, dan OSINT Framework**
-- 👨‍💻 Semua project kami tersedia di **[https://github.com/trasersecteam?tab=repositories](https://github.com/trasersecteam?tab=repositories)**
-- 📝 Kami juga menulis di blog kami **[https://trasersecteam.my.id](https://trasersecteam.my.id)**
-- 💬 Kami ahli dalam **Linux, Terminal, Node.js, dan Cyber Investigasi**
-- 📫 Hubungi kami via email: **admin@trasersecteam.my.id**
-- ⚡ Fun fact: **Kami tidak hanya menyerang, tapi juga membangun**
-
-<hr>
 
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sven-bo/sven-bo/output/github-contribution-grid-snake-dark.svg">
