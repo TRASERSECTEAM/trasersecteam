@@ -1,4 +1,4 @@
-
+#BUAT NGOPI <a>https://saweria.co/yanzdx</a>
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sven-bo/sven-bo/output/github-contribution-grid-snake-dark.svg">
 <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/sven-bo/sven-bo/output/github-contribution-grid-snake.svg">
