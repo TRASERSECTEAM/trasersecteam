@@ -2,89 +2,51 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>TRASER SEC TEAM</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>PERINGATAN KEAMANAN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @keyframes blink {
-      0% { color: red; }
-      50% { color: yellow; }
-      100% { color: red; }
-    }
+    *{margin:0;padding:0;font-family:'Roboto Mono',monospace;box-sizing:border-box}
+    html,body{background:#0d0d0d;color:#ff3333;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+    h1{font-size:3em;color:#ff0000;margin-bottom:20px;text-shadow:0 0 15px red}
+    .message{font-size:1.1em;color:#ccc;background:#1a1a1a;padding:20px 30px;border:1px solid #ff0000;border-radius:6px;box-shadow:0 0 20px rgba(255,0,0,.4);max-width:600px;text-align:center}
+    .redline{width:100%;height:4px;background:red;box-shadow:0 0 20px red;margin:30px 0}
+    .footer{position:absolute;bottom:20px;font-size:.9em;color:#666}
+    #start{margin-top:30px;background:#ff0000;color:#fff;border:none;padding:10px 25px;font-size:1em;border-radius:4px;cursor:pointer;transition:background .3s}
+    #start:hover{background:#cc0000}
+     h2 {
+    animation: blink 0.1s infinite;
+  }
 
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(2px, -2px); }
-      60% { transform: translate(-1px, 1px); }
-      80% { transform: translate(1px, -1px); }
-      100% { transform: translate(0); }
-    }
-
-    body {
-      margin: 0;
-      background: black;
-      color: white;
-      font-family: 'Courier New', Courier, monospace;
-      text-align: center;
-      padding: 50px;
-    }
-
-    .warning {
-      font-size: 28px;
-      animation: blink 0.1s infinite;
-      font-weight: bold;
-    }
-
-    .glitch-text {
-      font-size: 20px;
-      color: red;
-      animation: glitch 0.3s infinite;
-      margin-top: 30px;
-    }
-
-    .box {
-      border: 2px solid red;
-      padding: 20px;
-      margin-top: 50px;
-      background: rgba(255,0,0,0.1);
-      border-radius: 10px;
-      box-shadow: 0 0 20px red;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .subtext {
-      margin-top: 20px;
-      color: #fdd;
-      font-size: 16px;
-    }
-
-    .footer {
-      margin-top: 60px;
-      font-size: 12px;
-      color: #444;
-    }
-
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
   </style>
 </head>
-<body>
-
-  <div class="warning">TRASER SEC TEAM</div>
-
-  <div class="box">
-    <div class="glitch-text">
-      JIKA TIDAK MAU DISEBARKAN<br>
-      <b style="font-size: 24px;">TRANSFER 50K SEKARANG!</b>
-    </div>
-    <div class="subtext">
-      Kami telah mengambil data kamera kamu secara otomatis.<br>
-      Waktu kamu tersisa: <span style="color: yellow;">02:59</span> menit
-    </div>
+<body oncontextmenu="return false">
+  <div class="redline"></div>
+  <h2><font color='red'>🥀</font></h2>
+  <h1>RENSOMWARE</h1>
+  <div class="message">
+    Kami telah mengidentifikasi aktivitas mencurigakan pada perangkat Anda.<br><br>
+    Beberapa data pribadi, termasuk <b>foto</b>, berhasil disadap.<br><br>
+    Untuk mencegah penyebaran, segera hubungi: <strong>@usrz7</strong> di Telegram.<br><br>
+    Sistem kami telah mengunci aktivitas hingga verifikasi dilakukan.
   </div>
+  <button id="start">LANJUTKAN</button>
+  <div class="redline"></div>
+  <div class="footer">TraserSec Cyber Division • Case ID #V1P-PHSH-982</div>
 
-  <div class="footer">
-    © 2025 AnonSec404 | TRASER SEC TEAM
-  </div>
-
+  <script>
+    const startBtn = document.getElementById("start");
+    startBtn.addEventListener("click", () => {
+      const el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+      startBtn.style.display = "none";
+    });
+  </script>
 </body>
 </html>
