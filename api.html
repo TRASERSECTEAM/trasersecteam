@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spam 1 000 digit “1” via WhatsAuth</title>
+<style>
+  body{font-family:system-ui;background:#111;color:#eee;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+  #wrapper{text-align:center}
+  input{padding:.6rem 1rem;font-size:1.1rem;border-radius:8px;border:none;width:280px}
+  small{display:block;margin-top:.8rem;color:#aaa;font-size:.75rem}
+</style>
+</head>
+<body>
+  <div id="wrapper">
+    <h2>Kirim Spam 1 000 “1”</h2>
+    <input id="no" placeholder="62812•••" autocomplete="off" autofocus />
+    <small>Tekan Enter untuk kirim</small>
+  </div>
+
+<script>
+  /* ====== KONFIG ====== */
+  const TOKEN      = "v4.public.eyJhbGlhcyI6IlluIiwiZXhwIjoiMjAyNS0wOC0wMVQxMzo1MDoyM1oiLCJpYXQiOiIyMDI1LTA3LTAyVDEzOjUwOjIzWiIsImlkIjoiNjI4ODI5NDU5NzI1MyIsIm5iZiI6IjIwMjUtMDctMDJUMTM6NTA6MjNaIn0uLnjRuoP_FBBSJdBwVtsd0BLJ6zpQL4OHi5B6biYoLpFhaQ4Hd-3P7EM6CQjfTCIiEKmvJta9GrtK-AvRFb8C";       // <— token 30-hari dari wa.my.id
+  const ENDPOINT   = "https://api.wa.my.id/api/v2/send/message/text"; // endpoint kirim teks 0
+  const SPAM_CHAR  = "1";   // karakter yang akan di-ulang
+  const SPAM_LEN   = 1000;  // berapa kali di-ulang
+
+  /* ====== LOGIC ====== */
+  const input = document.getElementById("no");
+  input.addEventListener("keydown", async e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const num = input.value.trim();
+      if(!/^\d{10,15}$/.test(num)) { alert("Nomor nggak valid!"); return; }
+
+      const body = {
+        to       : num,
+        isgroup  : false,
+        messages : SPAM_CHAR.repeat(SPAM_LEN)
+      };
+
+      try{
+        const res = await fetch(ENDPOINT, {
+          method : "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Token"       : TOKEN          // header WAAuth → “Token”, bukan Authorization
+          },
+          body: JSON.stringify(body)
+        });
+        const json = await res.json();
+        alert(json?.response || "Terkirim✅");
+      }catch(err){
+        console.error(err);
+        alert("Gagal mengirim!");
+      }
+    }
+  });
+</script>
+</body>
+</html>
