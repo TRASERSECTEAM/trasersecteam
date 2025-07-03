@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRASER TRACK IP - Advanced IP Information Tool</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .hamburger {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #00ff88;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Side Navigation */
+        .sidenav {
+            height: 100vh;
+            width: 0;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-right: 1px solid rgba(0, 255, 136, 0.3);
+            overflow-x: hidden;
+            transition: 0.4s ease;
+            padding-top: 80px;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8);
+        }
+
+        .sidenav.open {
+            width: 300px;
+        }
+
+        .sidenav a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #00ff88;
+            display: block;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidenav a:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-left-color: #00ff88;
+            padding-left: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .sidenav a i {
+            margin-right: 15px;
+            width: 20px;
+        }
+
+        /* Main Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            transition: margin-left 0.4s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-top: 40px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 255, 136, 0.1);
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 18px 25px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            color: #00ff88;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2), 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+
+        .search-btn {
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.5), 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 255, 136, 0.1);
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #00ff88;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 255, 136, 0.2);
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .info-card h3 {
+            color: #00ff88;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .info-card h3 i {
+            margin-right: 10px;
+            color: #00ff88;
+        }
+
+        .info-card p {
+            color: #ccc;
+            font-size: 1rem;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        /* Map Container */
+        .map-container {
+            grid-column: 1 / -1;
+            height: 300px;
+            background: #e9ecef;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-section,
+            .results-section {
+                padding: 25px;
+                margin: 20px 10px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+        }
+
+        /* Additional Modern Touches */
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .ip-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-container">
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <!-- Side Navigation -->
+    <div class="sidenav" id="sidenav">
+        <a href="#" onclick="showHome()">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="#" onclick="showHistory()">
+            <i class="fas fa-history"></i>
+            Search History
+        </a>
+        <a href="#" onclick="showAbout()">
+            <i class="fas fa-info-circle"></i>
+            About IP Lookup
+        </a>
+        <a href="#" onclick="showTools()">
+            <i class="fas fa-tools"></i>
+            Network Tools
+        </a>
+        <a href="#" onclick="showSettings()">
+            <i class="fas fa-cog"></i>
+            Settings
+        </a>
+        <a href="#" onclick="showHelp()">
+            <i class="fas fa-question-circle"></i>
+            Help & Support
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="main-content">
+        <div class="header">
+            <h1>TRASER TRACK IP</h1>
+            <p>Advanced IP Address Information & Geolocation Tool</p>
+        </div>
+
+        <div class="search-section">
+            <h2 style="margin-bottom: 25px; color: #2c3e50; font-size: 1.5rem;">
+                <i class="fas fa-search" style="margin-right: 10px; color: #667eea;"></i>
+                IP Address Lookup
+            </h2>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="ipInput" 
+                    placeholder="Enter IP address (e.g., 8.8.8.8)"
+                    autocomplete="off"
+                >
+                <button class="search-btn" id="searchBtn" onclick="lookupIP()">
+                    <i class="fas fa-search"></i>
+                    Lookup
+                </button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Fetching comprehensive IP information...</p>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="margin-bottom: 20px; color: #2c3e50; font-size: 1.5rem;">
+                <i class="fas fa-chart-line" style="margin-right: 10px; color: #667eea;"></i>
+                IP Information Results
+            </h2>
+            <div class="ip-display" id="ipDisplay"></div>
+            <div class="results-grid" id="resultsGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        let searchHistory = JSON.parse(localStorage.getItem('ipSearchHistory') || '[]');
+        
+        // Hamburger menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const sidenav = document.getElementById('sidenav');
+        const mainContent = document.getElementById('main-content');
+
+        hamburger.addEventListener('click', toggleMenu);
+
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            sidenav.classList.toggle('open');
+            
+            if (sidenav.classList.contains('open')) {
+                mainContent.style.marginLeft = '300px';
+                document.body.style.overflow = 'hidden';
+            } else {
+                mainContent.style.marginLeft = '0';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = sidenav.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnHamburger && sidenav.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+
+        // IP validation function
+        function isValidIP(ip) {
+            const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            const ipv6Regex = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+            return ipv4Regex.test(ip) || ipv6Regex.test(ip);
+        }
+
+        // Main IP lookup function
+        async function lookupIP() {
+            const ipInput = document.getElementById('ipInput');
+            const ip = ipInput.value.trim();
+            
+            if (!ip) {
+                showError('Please enter an IP address');
+                return;
+            }
+            
+            if (!isValidIP(ip)) {
+                showError('Please enter a valid IP address');
+                return;
+            }
+
+            // Show loading state
+            showLoading(true);
+            hideError();
+            hideResults();
+
+            try {
+                const promises = [
+                    fetch(`https://ipinfo.io/${ip}/json`),
+                    fetch(`https://ip-api.com/json/${ip}?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query`),
+                    fetch(`https://ipapi.co/${ip}/json/`)
+                ];
+
+                const responses = await Promise.allSettled(promises);
+                let combinedData = { ip: ip };
+
+                for (let i = 0; i < responses.length; i++) {
+                    if (responses[i].status === 'fulfilled' && responses[i].value.ok) {
+                        const apiData = await responses[i].value.json();
+                        combinedData = { ...combinedData, ...apiData };
+                    }
+                }
+
+                if (Object.keys(combinedData).length === 1) {
+                    throw new Error('All IP lookup services failed');
+                }
+                
+                displayResults(combinedData);
+                saveToHistory(ip, combinedData);
+                
+            } catch (error) {
+                showError(`Failed to fetch IP information: ${error.message}`);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+
+        function getApiToken() {
+            return null;
+        }
+
+        // Display comprehensive IP results
+        function displayResults(data) {
+            const ipDisplay = document.getElementById('ipDisplay');
+            const resultsGrid = document.getElementById('resultsGrid');
+            const resultsSection = document.getElementById('resultsSection');
+
+            ipDisplay.textContent = data.ip;
+            
+            const fields = [
+                { key: 'hostname', label: 'Hostname', icon: 'fas fa-server' },
+                { key: 'city', label: 'City', icon: 'fas fa-city' },
+                { key: 'region', label: 'Region/State', icon: 'fas fa-map-marker-alt' },
+                { key: 'country', label: 'Country', icon: 'fas fa-flag' },
+                { key: 'loc', label: 'Coordinates', icon: 'fas fa-crosshairs' },
+                { key: 'org', label: 'Organization', icon: 'fas fa-building' },
+                { key: 'postal', label: 'Postal Code', icon: 'fas fa-mail-bulk' },
+                { key: 'timezone', label: 'Timezone', icon: 'fas fa-clock' },
+                { key: 'asn', label: 'ASN', icon: 'fas fa-network-wired' },
+                { key: 'company', label: 'Company', icon: 'fas fa-briefcase' },
+                { key: 'carrier', label: 'Carrier', icon: 'fas fa-signal' },
+                { key: 'privacy', label: 'Privacy Info', icon: 'fas fa-shield-alt' },
+                { key: 'abuse', label: 'Abuse Contact', icon: 'fas fa-exclamation-triangle' },
+                { key: 'domains', label: 'Associated Domains', icon: 'fas fa-globe' }
+            ];
+
+            let html = '';
+            
+            fields.forEach(field => {
+                let value = data[field.key];
+                if (value !== undefined && value !== null && value !== '') {
+                    // Handle different data types
+                    if (typeof value === 'object') {
+                        if (Array.isArray(value)) {
+                            value = value.join(', ');
+                        } else {
+                            value = JSON.stringify(value, null, 2);
+                        }
+                    }
+                    
+                    html += `
+                        <div class="info-card">
+                            <h3><i class="${field.icon}"></i>${field.label}</h3>
+                            <p>${value}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            // Add additional calculated information
+            if (data.loc) {
+                const [lat, lon] = data.loc.split(',');
+                html += `
+                    <div class="info-card">
+                        <h3><i class="fas fa-map"></i>Latitude</h3>
+                        <p>${lat}</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-map"></i>Longitude</h3>
+                        <p>${lon}</p>
+                    </div>
+                `;
+            }
+
+            // Add IP version info
+            const ipVersion = data.ip.includes(':') ? 'IPv6' : 'IPv4';
+            html += `
+                <div class="info-card">
+                    <h3><i class="fas fa-tag"></i>IP Version</h3>
+                    <p>${ipVersion}</p>
+                </div>
+            `;
+
+            // Add reverse DNS if hostname exists
+            if (data.hostname && data.hostname !== data.ip) {
+                html += `
+                    <div class="info-card">
+                        <h3><i class="fas fa-exchange-alt"></i>Reverse DNS</h3>
+                        <p>${data.hostname}</p>
+                    </div>
+                `;
+            }
+
+            // Add map placeholder
+            if (data.loc) {
+                html += `
+                    <div class="map-container">
+                        <i class="fas fa-map-marked-alt" style="font-size: 2rem; margin-right: 15px;"></i>
+                        Interactive map would be displayed here<br>
+                        <small>Coordinates: ${data.loc}</small>
+                    </div>
+                `;
+            }
+
+            resultsGrid.innerHTML = html;
+            resultsSection.classList.add('show');
+        }
+
+        // Utility functions
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            const searchBtn = document.getElementById('searchBtn');
+            
+            if (show) {
+                loading.classList.add('show');
+                searchBtn.disabled = true;
+                searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            } else {
+                loading.classList.remove('show');
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = '<i class="fas fa-search"></i> Lookup';
+            }
+        }
+
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+            setTimeout(() => {
+                errorElement.classList.remove('show');
+            }, 5000);
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function hideResults() {
+            document.getElementById('resultsSection').classList.remove('show');
+        }
+
+        function saveToHistory(ip, data) {
+            const historyItem = {
+                ip: ip,
+                city: data.city,
+                country: data.country,
+                org: data.org,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Remove duplicate entries
+            searchHistory = searchHistory.filter(item => item.ip !== ip);
+            
+            // Add to beginning of array
+            searchHistory.unshift(historyItem);
+            
+            // Keep only last 50 searches
+            searchHistory = searchHistory.slice(0, 50);
+            
+            localStorage.setItem('ipSearchHistory', JSON.stringify(searchHistory));
+        }
+
+        // Navigation functions
+        function showHome() {
+            toggleMenu();
+            // Already on home page
+        }
+
+        function showHistory() {
+            toggleMenu();
+            alert('Search History:\n\n' + 
+                  searchHistory.slice(0, 10).map(item => 
+                      `${item.ip} - ${item.city || 'Unknown'}, ${item.country || 'Unknown'}`
+                  ).join('\n') || 'No search history yet');
+        }
+
+        function showAbout() {
+            toggleMenu();
+            alert('IP Lookup Pro\n\nA comprehensive IP address information tool that provides detailed geolocation, ISP, and network information using the ipinfo.io API.');
+        }
+
+        function showTools() {
+            toggleMenu();
+            alert('Additional network tools coming soon:\n• Ping Test\n• Traceroute\n• DNS Lookup\n• Port Scanner');
+        }
+
+        function showSettings() {
+            toggleMenu();
+            alert('Settings:\n• API Token Configuration\n• Data Display Preferences\n• History Management');
+        }
+
+        function showHelp() {
+            toggleMenu();
+            alert('Help & Support:\n\n• Enter any valid IPv4 or IPv6 address\n• Results include location, ISP, and network details\n• Search history is saved locally\n• All data provided by ipinfo.io');
+        }
+
+        // Enter key support for search
+        document.getElementById('ipInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                lookupIP();
+            }
+        });
+
+        // Auto-lookup for common example IPs
+        document.getElementById('ipInput').addEventListener('input', function(event) {
+            const value = event.target.value.trim();
+            if (value === '8.8.8.8' || value === '1.1.1.1') {
+                setTimeout(() => {
+                    if (event.target.value === value) {
+                        lookupIP();
+                    }
+                }, 1000);
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pre-fill with example IP for demonstration
+            // document.getElementById('ipInput').value = '8.8.8.8';
+        });
+    </script>
+</body>
+</html>
