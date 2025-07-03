@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* Hamburger Menu Styles */
+        
         .hamburger-container {
             position: fixed;
             top: 20px;
@@ -72,7 +72,7 @@
             transform: rotate(45deg) translate(-5px, -6px);
         }
 
-        /* Side Navigation */
+        
         .sidenav {
             height: 100vh;
             width: 0;
@@ -114,7 +114,7 @@
             width: 20px;
         }
 
-        /* Main Content Container */
+    
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -204,7 +204,7 @@
             transform: none;
         }
 
-        /* Results Section */
+        
         .results-section {
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(0, 255, 136, 0.3);
@@ -264,7 +264,7 @@
             word-break: break-all;
         }
 
-        /* Loading Spinner */
+        
         .loading {
             text-align: center;
             padding: 40px;
@@ -285,7 +285,7 @@
             margin: 0 auto 20px;
         }
 
-        /* Error Message */
+        
         .error-message {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
@@ -302,7 +302,7 @@
             animation: fadeInUp 0.5s ease;
         }
 
-        /* Map Container */
+        
         .map-container {
             grid-column: 1 / -1;
             height: 300px;
@@ -315,7 +315,7 @@
             font-size: 1.1rem;
         }
 
-        /* Animations */
+        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -332,7 +332,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive Design */
+        
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.5rem;
@@ -357,7 +357,7 @@
             }
         }
 
-        /* Additional Modern Touches */
+    
         .badge {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -384,7 +384,7 @@
     </style>
 </head>
 <body>
-    <!-- Hamburger Menu -->
+    
     <div class="hamburger-container">
         <button class="hamburger" id="hamburger">
             <span></span>
@@ -393,7 +393,7 @@
         </button>
     </div>
 
-    <!-- Side Navigation -->
+
     <div class="sidenav" id="sidenav">
         <a href="#" onclick="showHome()">
             <i class="fas fa-home"></i>
@@ -421,7 +421,7 @@
         </a>
     </div>
 
-    <!-- Main Content -->
+    
     <div class="container" id="main-content">
         <div class="header">
             <h1>TRASER TRACK IP</h1>
@@ -467,7 +467,7 @@
     <script>
         let searchHistory = JSON.parse(localStorage.getItem('ipSearchHistory') || '[]');
         
-        // Hamburger menu functionality
+        
         const hamburger = document.getElementById('hamburger');
         const sidenav = document.getElementById('sidenav');
         const mainContent = document.getElementById('main-content');
@@ -487,7 +487,7 @@
             }
         }
 
-        // Close menu when clicking outside
+        
         document.addEventListener('click', function(event) {
             const isClickInsideNav = sidenav.contains(event.target);
             const isClickOnHamburger = hamburger.contains(event.target);
@@ -497,14 +497,14 @@
             }
         });
 
-        // IP validation function
+    
         function isValidIP(ip) {
             const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
             const ipv6Regex = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
             return ipv4Regex.test(ip) || ipv6Regex.test(ip);
         }
 
-        // Main IP lookup function
+        
         async function lookupIP() {
             const ipInput = document.getElementById('ipInput');
             const ip = ipInput.value.trim();
@@ -519,7 +519,7 @@
                 return;
             }
 
-            // Show loading state
+            
             showLoading(true);
             hideError();
             hideResults();
@@ -560,7 +560,7 @@
             return null;
         }
 
-        // Display comprehensive IP results
+        
         function displayResults(data) {
             const ipDisplay = document.getElementById('ipDisplay');
             const resultsGrid = document.getElementById('resultsGrid');
@@ -590,7 +590,7 @@
             fields.forEach(field => {
                 let value = data[field.key];
                 if (value !== undefined && value !== null && value !== '') {
-                    // Handle different data types
+                    
                     if (typeof value === 'object') {
                         if (Array.isArray(value)) {
                             value = value.join(', ');
@@ -608,7 +608,7 @@
                 }
             });
 
-            // Add additional calculated information
+            
             if (data.loc) {
                 const [lat, lon] = data.loc.split(',');
                 html += `
@@ -623,7 +623,7 @@
                 `;
             }
 
-            // Add IP version info
+            
             const ipVersion = data.ip.includes(':') ? 'IPv6' : 'IPv4';
             html += `
                 <div class="info-card">
@@ -632,7 +632,7 @@
                 </div>
             `;
 
-            // Add reverse DNS if hostname exists
+            
             if (data.hostname && data.hostname !== data.ip) {
                 html += `
                     <div class="info-card">
@@ -642,7 +642,7 @@
                 `;
             }
 
-            // Add map placeholder
+            
             if (data.loc) {
                 html += `
                     <div class="map-container">
@@ -657,7 +657,7 @@
             resultsSection.classList.add('show');
         }
 
-        // Utility functions
+    
         function showLoading(show) {
             const loading = document.getElementById('loading');
             const searchBtn = document.getElementById('searchBtn');
@@ -699,22 +699,22 @@
                 timestamp: new Date().toISOString()
             };
             
-            // Remove duplicate entries
+            
             searchHistory = searchHistory.filter(item => item.ip !== ip);
             
-            // Add to beginning of array
+            
             searchHistory.unshift(historyItem);
             
-            // Keep only last 50 searches
+        
             searchHistory = searchHistory.slice(0, 50);
             
             localStorage.setItem('ipSearchHistory', JSON.stringify(searchHistory));
         }
 
-        // Navigation functions
+        
         function showHome() {
             toggleMenu();
-            // Already on home page
+            
         }
 
         function showHistory() {
@@ -745,14 +745,14 @@
             alert('Help & Support:\n\n• Enter any valid IPv4 or IPv6 address\n• Results include location, ISP, and network details\n• Search history is saved locally\n• All data provided by ipinfo.io');
         }
 
-        // Enter key support for search
+        
         document.getElementById('ipInput').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 lookupIP();
             }
         });
 
-        // Auto-lookup for common example IPs
+        
         document.getElementById('ipInput').addEventListener('input', function(event) {
             const value = event.target.value.trim();
             if (value === '8.8.8.8' || value === '1.1.1.1') {
@@ -764,10 +764,10 @@
             }
         });
 
-        // Initialize
+    
         document.addEventListener('DOMContentLoaded', function() {
-            // Pre-fill with example IP for demonstration
-            // document.getElementById('ipInput').value = '8.8.8.8';
+            
+            
         });
     </script>
 </body>
