@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VirtuSIM Dashboard</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    h2 { color: #00ffcc; }
+    input, select, button {
+      padding: 10px;
+      margin: 6px;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+    }
+    input, select { width: 250px; }
+    button {
+      background: #00ffcc;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .box {
+      background: #222;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    .loader {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #00ffcc;
+      animation: bounce 1s infinite alternate;
+    }
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💎 VirtuSIM Panel</h2>
+
+  <label>🔑 API Key:</label><br>
+  <input type="text" id="apiKey" value=""><br>
+
+  <button onclick="checkBalance()">💰 Cek Saldo</button>
+  <div id="balance" class="box">Saldo: belum dicek</div>
+
+  <hr>
+
+  <label>🌍 Negara:</label><br>
+  <select id="country">
+    <option value="63">🇵🇭 Filipina (+63)</option>
+    <option value="60">🇲🇾 Malaysia (+60)</option>
+    <option value="52">🇲🇽 Meksiko (+52)</option>
+  </select><br>
+
+  <label>📱 Layanan:</label><br>
+  <select id="service">
+    <option value="wa">WhatsApp</option>
+    <option value="tg">Telegram</option>
+    <option value="fb">Facebook</option>
+  </select><br>
+
+  <button onclick="orderNumber()">📥 Beli Nomor</button>
+
+  <div id="result" class="box"></div>
+
+  <script>
+    async function checkBalance() {
+      const apiKey = document.getElementById("apiKey").value.trim();
+      if (!apiKey) return alert("Isi API key dulu bro.");
+      const res = await fetch(`https://virtusim.com/api?apiKey=${apiKey}&action=getBalance`);
+      const data = await res.json();
+      if (data.status === 'success') {
+        document.getElementById("balance").innerText = "💰 Saldo: " + data.balance + " coins";
+      } else {
+        document.getElementById("balance").innerText = "❌ Gagal cek saldo";
+      }
+    }
+
+    async function orderNumber() {
+      const apiKey = document.getElementById("apiKey").value.trim();
+      const service = document.getElementById("service").value;
+      const country = document.getElementById("country").value;
+      if (!apiKey) return alert("Masukkan API key!");
+
+      document.getElementById("result").innerHTML = "⏳ Loading... <span class='loader'></span>";
+
+      const url = `https://virtusim.com/api?apiKey=${apiKey}&action=order&service=${service}&country=${country}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        document.getElementById("result").innerHTML = `
+          ✅ Nomor berhasil diorder:<br>
+          ID: <b>${data.id}</b><br>
+          Nomor: <b>${data.number}</b><br><br>
+          <button onclick="getOTP('${apiKey}', '${data.id}')">🔄 Cek OTP</button>
+          <button onclick="cancelOrder('${apiKey}', '${data.id}')">❌ Cancel</button>
+        `;
+      } else {
+        document.getElementById("result").innerHTML = "❌ Gagal order: " + data.message;
+      }
+    }
+
+    async function getOTP(apiKey, orderId) {
+      const url = `https://virtusim.com/api?apiKey=${apiKey}&action=getCode&id=${orderId}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.status === 'success' && data.code) {
+        alert("📨 OTP Masuk: " + data.code);
+      } else {
+        alert("⏳ Belum ada kode OTP.");
+      }
+    }
+
+    async function cancelOrder(apiKey, orderId) {
+      const url = `https://virtusim.com/api?apiKey=${apiKey}&action=cancel&id=${orderId}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        alert("✅ Order dibatalkan.");
+        document.getElementById("result").innerHTML = "";
+      } else {
+        alert("❌ Gagal cancel.");
+      }
+    }
+  </script>
+
+</body>
+</html>
