@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VirtuSIM Indo Only</title>
+  <style>
+    body { background: #0d0d0d; color: #fff; font-family: Arial; padding: 20px; }
+    input, button, select {
+      padding: 10px; margin: 8px 0; width: 100%; border-radius: 5px; border: none;
+      font-size: 15px;
+    }
+    button {
+      background: #00ffaa; font-weight: bold; color: #000; cursor: pointer;
+    }
+    .box {
+      background: #1e1e1e; padding: 15px; border-radius: 10px; margin-top: 15px;
+    }
+    h2 { color: #00ffaa; }
+    hr { border: 1px solid #222; margin: 30px 0; }
+  </style>
+</head>
+<body>
+
+  <h2>🇮🇩 VirtuSIM Panel - Nomor Indonesia</h2>
+
+  <input type="text" id="apikey" placeholder="🔑 Masukkan API Key" value="HD5wAdt9gkfuB8K7XmUbhYeVZNlQ0R">
+  <button onclick="getBalance()">💰 Cek Saldo</button>
+  <div class="box" id="saldo">Saldo belum dicek</div>
+
+  <hr>
+
+  <label>📱 Order Nomor Indonesia:</label>
+  <select id="service">
+    <option value="92">WhatsApp Indo 🇮🇩</option>
+    <option value="189">Telegram Indo 🇮🇩</option>
+    <option value="170">Google Indo 🇮🇩</option>
+    <option value="14">Instagram Indo 🇮🇩</option>
+  </select>
+  <button onclick="orderNumber()">📥 Order Nomor</button>
+
+  <div class="box" id="result">Belum ada order</div>
+
+  <script>
+    async function getBalance() {
+      const key = document.getElementById("apikey").value.trim();
+      const res = await fetch(`https://virtusim.com/api/v2/json.php?api_key=${key}&action=balance`);
+      const data = await res.json();
+      document.getElementById("saldo").innerHTML = data.status ?
+        `✅ Saldo kamu: <b>${data.balance}</b> coins` :
+        `❌ Gagal ambil saldo: ${data.msg}`;
+    }
+
+    async function orderNumber() {
+      const key = document.getElementById("apikey").value.trim();
+      const service = document.getElementById("service").value;
+      const url = `https://virtusim.com/api/v2/json.php?api_key=${key}&action=order&service=${service}&operator=any`;
+
+      document.getElementById("result").innerHTML = "⏳ Memesan nomor...";
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.status) {
+        const id = data.data.id;
+        const number = data.data.number;
+        document.getElementById("result").innerHTML = `
+          ✅ Nomor: <b>${number}</b><br>
+          ID Order: <b>${id}</b><br><br>
+          <button onclick="startReceive('${key}', '${id}')">▶️ START OTP</button>
+          <button onclick="checkOTP('${key}', '${id}')">🔄 Cek OTP</button>
+          <button onclick="cancelOrder('${key}', '${id}')">❌ Cancel</button>
+        `;
+      } else {
+        document.getElementById("result").innerText = "❌ Gagal order nomor: " + data.msg;
+      }
+    }
+
+    async function startReceive(key, id) {
+      const url = `https://virtusim.com/api/v2/json.php?api_key=${key}&action=set_status&id=${id}&status=1`;
+      const res = await fetch(url);
+      const data = await res.json();
+      alert(data.status ? "✅ Nomor siap menerima OTP!" : "❌ Gagal START: " + data.msg);
+    }
+
+    async function checkOTP(key, id) {
+      const url = `https://virtusim.com/api/v2/json.php?api_key=${key}&action=status&id=${id}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.status && data.data.code) {
+        alert("📩 OTP Masuk: " + data.data.code);
+      } else {
+        alert("⏳ Belum ada OTP.");
+      }
+    }
+
+    async function cancelOrder(key, id) {
+      const url = `https://virtusim.com/api/v2/json.php?api_key=${key}&action=set_status&id=${id}&status=8`;
+      const res = await fetch(url);
+      const data = await res.json();
+      alert(data.status ? "❌ Order dibatalkan!" : "❌ Gagal cancel: " + data.msg);
+      document.getElementById("result").innerHTML = "Order dibatalkan.";
+    }
+  </script>
+
+</body>
+</html>
