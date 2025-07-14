@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Suki Liar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .admin-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 300;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #00d4ff;
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #888;
+        }
+
+        .current-key {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #00d4ff;
+            word-break: break-all;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .no-key {
+            color: #888;
+            font-style: italic;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .status-success {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .status-error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .info-card h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .info-card p {
+            color: #ccc;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .info-card ul {
+            color: #ccc;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .info-card li {
+            margin-bottom: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #00d4ff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="header">
+            <h1>Admin Panel</h1>
+            <p>Kelola API Key untuk Suki Liar</p>
+        </div>
+
+        <div class="form-group">
+            <label for="currentKey">API Key Saat Ini:</label>
+            <div class="current-key" id="currentKey">
+                <span class="no-key">Memuat...</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="newApiKey">API Key Baru:</label>
+            <input type="text" id="newApiKey" class="form-input" placeholder="Masukkan API key OpenRouter..." />
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" id="saveBtn">Simpan API Key</button>
+            <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
+        </div>
+
+        <div id="statusMessage"></div>
+
+        <div class="info-card">
+            <h3>Informasi API Key</h3>
+            <p>Untuk mendapatkan API key OpenRouter:</p>
+            <ul>
+                <li>Kunjungi <strong>https://openrouter.ai</strong></li>
+                <li>Daftar atau login ke akun Anda</li>
+                <li>Buka halaman API Keys di dashboard</li>
+                <li>Generate API key baru</li>
+                <li>Copy dan paste ke form di atas</li>
+            </ul>
+            <p style="margin-top: 15px; color: #ff6b6b;">
+                <strong>Catatan:</strong> API key akan disimpan di Firebase Realtime Database dan dapat diakses oleh chatbot.
+            </p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVMpOCjY9gdd4UkSa",
+            authDomain: "yanofc-1ecd3.firebaseapp.com",
+            databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "yanofc-1ecd3",
+            storageBucket: "yanofc-1ecd3.appspot.com",
+            messagingSenderId: "843043156565",
+            appId: "1:843043156565:web:e00942a837d30e4b4a9adc"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        const currentKeyEl = document.getElementById('currentKey');
+        const newApiKeyEl = document.getElementById('newApiKey');
+        const saveBtn = document.getElementById('saveBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        function showStatus(message, isSuccess = true) {
+            statusMessage.innerHTML = message;
+            statusMessage.className = `status-message ${isSuccess ? 'status-success' : 'status-error'}`;
+            statusMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function showLoading(element, show = true) {
+            if (show) {
+                element.innerHTML = '<span class="loading"></span>Memproses...';
+                element.disabled = true;
+            } else {
+                element.innerHTML = element.dataset.originalText;
+                element.disabled = false;
+            }
+        }
+
+        async function loadCurrentKey() {
+            try {
+                currentKeyEl.innerHTML = '<span class="loading"></span>Memuat...';
+                const snapshot = await database.ref('apiKey').once('value');
+                const apiKey = snapshot.val();
+                
+                if (apiKey) {
+                    const maskedKey = apiKey.substring(0, 8) + '...' + apiKey.substring(apiKey.length - 8);
+                    currentKeyEl.textContent = maskedKey;
+                } else {
+                    currentKeyEl.innerHTML = '<span class="no-key">Belum ada API key yang disimpan</span>';
+                }
+            } catch (error) {
+                console.error('Error loading API key:', error);
+                currentKeyEl.innerHTML = '<span class="no-key">Error memuat API key</span>';
+                showStatus('Error memuat API key: ' + error.message, false);
+            }
+        }
+
+        async function saveApiKey() {
+            const newKey = newApiKeyEl.value.trim();
+            if (!newKey) {
+                showStatus('Harap masukkan API key terlebih dahulu', false);
+                return;
+            }
+
+            saveBtn.dataset.originalText = saveBtn.innerHTML;
+            showLoading(saveBtn, true);
+
+            try {
+                await database.ref('apiKey').set(newKey);
+                showStatus('API key berhasil disimpan!');
+                newApiKeyEl.value = '';
+                await loadCurrentKey();
+            } catch (error) {
+                console.error('Error saving API key:', error);
+                showStatus('Error menyimpan API key: ' + error.message, false);
+            } finally {
+                showLoading(saveBtn, false);
+            }
+        }
+
+        async function refreshKey() {
+            refreshBtn.dataset.originalText = refreshBtn.innerHTML;
+            showLoading(refreshBtn, true);
+            
+            try {
+                await loadCurrentKey();
+                showStatus('Data berhasil direfresh!');
+            } catch (error) {
+                showStatus('Error refresh data: ' + error.message, false);
+            } finally {
+                showLoading(refreshBtn, false);
+            }
+        }
+
+        saveBtn.addEventListener('click', saveApiKey);
+        refreshBtn.addEventListener('click', refreshKey);
+
+        newApiKeyEl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                saveApiKey();
+            }
+        });
+
+        loadCurrentKey();
+
+        database.ref('apiKey').on('value', (snapshot) => {
+            const apiKey = snapshot.val();
+            if (apiKey && currentKeyEl.textContent !== 'Memuat...') {
+                const maskedKey = apiKey.substring(0, 8) + '...' + apiKey.substring(apiKey.length - 8);
+                currentKeyEl.textContent = maskedKey;
+            }
+        });
+    </script>
+</body>
+</html>
