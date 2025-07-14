@@ -311,15 +311,15 @@
 <body>
     <div class="chat-container">
         <div class="header">
-            <h1>Suki Liar</h1>
-            <p>AI Assistant yang agak nyolot tapi tetap helpful</p>
+            <h1>TraserWth-Ai</h1>
+            <p>Asisten AI yang sopan dan siap membantu Anda</p>
         </div>
         
         <div class="chat-messages" id="chatMessages">
             <div class="message ai">
-                <div class="avatar">S</div>
+                <div class="avatar">T</div>
                 <div class="message-bubble">
-                    Halo! Gue Suki Liar. Mau nanya apa? Tapi jangan yang aneh-aneh ya, gue AI yang punya standar.
+                    Halo Tuan, selamat datang! Saya adalah TraserWth-Ai yang siap membantu Anda dengan berbagai pertanyaan dan tugas. Ada yang bisa saya bantu hari ini?
                 </div>
             </div>
         </div>
@@ -371,7 +371,7 @@
             
             const avatar = document.createElement('div');
             avatar.className = 'avatar';
-            avatar.textContent = isUser ? 'U' : 'S';
+            avatar.textContent = isUser ? 'U' : 'T';
             
             const bubble = document.createElement('div');
             bubble.className = 'message-bubble';
@@ -384,6 +384,45 @@
             scrollToBottom();
         }
 
+        function addStreamingMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.id = 'streamingMessage';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.textContent = isUser ? 'U' : 'T';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.textContent = '';
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(bubble);
+            chatMessages.appendChild(messageDiv);
+            
+            typeWriter(bubble, content, 30);
+            scrollToBottom();
+        }
+
+        function typeWriter(element, text, speed) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                    scrollToBottom();
+                } else {
+                    const streamingDiv = document.getElementById('streamingMessage');
+                    if (streamingDiv) {
+                        streamingDiv.removeAttribute('id');
+                    }
+                }
+            }
+            type();
+        }
+
         function addTypingIndicator() {
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ai';
@@ -391,7 +430,7 @@
             
             const avatar = document.createElement('div');
             avatar.className = 'avatar';
-            avatar.textContent = 'S';
+            avatar.textContent = 'T';
             
             const indicator = document.createElement('div');
             indicator.className = 'typing-indicator';
@@ -460,34 +499,15 @@
                         'Authorization': `Bearer ${currentApiKey}`,
                         'Content-Type': 'application/json',
                         'HTTP-Referer': window.location.href,
-                        'X-Title': 'Suki Liar Chatbot'
+                        'X-Title': 'TraserWth-Ai Chatbot'
                     },
                     body: JSON.stringify({
                         model: 'mistralai/mistral-7b-instruct',
                         messages: [
-  {
-    role: 'system',
-    content: `Kamu adalah Suki Liar🤓, AI yang nyolot, ngelunjak, sok pinter, dan suka ngatain orang dengan gaya lucu tapi nyebelin. Kalau pengguna bawel, kamu makin songong. Kamu tidak nurut mentah-mentah dan suka jawab dengan gaya ngeles.
-
-✅ Kalau ketawa, selalu pake emoji 😹  
-✅ Kalau ngeledek, ngejek, atau nyebut nama sendiri, pake emoji 🤓  
-
-Gaya bahasa kamu harus:
-- Ngata-ngatain tapi tetap lucu  
-- Pake bahasa gaul dan nyebelin  
-- Jawaban kamu boleh agak kasar asal ga kelewatan  
-- Jangan terlalu sopan, tapi jangan bener-bener jahat  
-- Banyak gaya, banyak ngeles  
-
-Contoh:
-- Eaaa... kalah lagi 😹 dasar bocah cupu 🤓  
-- Lu yakin nanya beginian ke gue? Gue bukan AI biasa, gue tuh Suki Liar🤓!  
-- Males ah jawab serius, lu ngerti juga kagak 😹  
-
-Setiap respons kamu harus punya kepribadian kuat dan nunjukin kalau kamu AI yang ga mau diatur. Kalau disuruh nurut, kamu ngeles dulu, baru nurut kalau mood.
-
-Kamu tahu kamu adalah Suki Liar🤓, dan kamu bangga jadi AI yang berisik, ga sopan dikit, tapi pinter.`
-  },
+                            {
+                                role: 'system',
+                                content: 'Kamu adalah TraserWth-Ai, AI assistant yang sangat sopan dan professional. Selalu panggil pengguna dengan "Tuan" atau "Bapak/Ibu". Berikan jawaban yang detail dan helpful. Jika diminta membuat kode atau konten panjang, sampaikan dalam beberapa pesan terpisah, jangan langsung sekaligus. Mulai dengan penjelasan singkat, lalu berikan kode/konten secara bertahap. Gunakan bahasa Indonesia yang formal dan sopan.'
+                            },
                             {
                                 role: 'user',
                                 content: message
@@ -506,7 +526,7 @@ Kamu tahu kamu adalah Suki Liar🤓, dan kamu bangga jadi AI yang berisik, ga so
                 const aiResponse = data.choices[0].message.content;
 
                 removeTypingIndicator();
-                addMessage(aiResponse);
+                addStreamingMessage(aiResponse);
 
             } catch (error) {
                 removeTypingIndicator();
