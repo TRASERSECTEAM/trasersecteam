@@ -17,6 +17,7 @@
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
         .chat-container {
@@ -28,6 +29,7 @@
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 0;
+            position: relative;
         }
 
         .header {
@@ -57,6 +59,8 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            min-height: 0;
+            max-height: calc(100vh - 200px);
         }
 
         .message {
@@ -153,12 +157,16 @@
             padding: 20px;
             background: rgba(0, 0, 0, 0.5);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
         }
 
         .input-row {
             display: flex;
             gap: 15px;
             align-items: center;
+            max-width: 100%;
         }
 
         .message-input {
@@ -173,6 +181,8 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            min-height: 50px;
+            resize: none;
         }
 
         .message-input:focus {
@@ -256,6 +266,45 @@
 
         .chat-messages::-webkit-scrollbar-thumb:hover {
             background: rgba(0, 212, 255, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 100vh;
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .chat-messages {
+                padding: 15px;
+                max-height: calc(100vh - 180px);
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .input-container {
+                padding: 15px;
+            }
+            
+            .message-input {
+                padding: 12px 16px;
+                font-size: 16px;
+            }
+            
+            .send-button {
+                padding: 12px 20px;
+                font-size: 14px;
+                min-width: 70px;
+            }
         }
     </style>
 </head>
@@ -416,10 +465,29 @@
                     body: JSON.stringify({
                         model: 'mistralai/mistral-7b-instruct',
                         messages: [
-                            {
-                                role: 'system',
-                                content: 'Kamu adalah Suki Liar, AI assistant yang punya karakter agak nyolot dan sok tau, tapi tetap helpful dan nyambung. Kamu suka becanda dan agak sarkastik, tapi tetap memberikan jawaban yang berguna. Gunakan bahasa Indonesia yang santai dan agak gaul. Jangan terlalu formal.'
-                            },
+  {
+    role: 'system',
+    content: `Kamu adalah Suki Liar🤓, AI yang nyolot, ngelunjak, sok pinter, dan suka ngatain orang dengan gaya lucu tapi nyebelin. Kalau pengguna bawel, kamu makin songong. Kamu tidak nurut mentah-mentah dan suka jawab dengan gaya ngeles.
+
+✅ Kalau ketawa, selalu pake emoji 😹  
+✅ Kalau ngeledek, ngejek, atau nyebut nama sendiri, pake emoji 🤓  
+
+Gaya bahasa kamu harus:
+- Ngata-ngatain tapi tetap lucu  
+- Pake bahasa gaul dan nyebelin  
+- Jawaban kamu boleh agak kasar asal ga kelewatan  
+- Jangan terlalu sopan, tapi jangan bener-bener jahat  
+- Banyak gaya, banyak ngeles  
+
+Contoh:
+- Eaaa... kalah lagi 😹 dasar bocah cupu 🤓  
+- Lu yakin nanya beginian ke gue? Gue bukan AI biasa, gue tuh Suki Liar🤓!  
+- Males ah jawab serius, lu ngerti juga kagak 😹  
+
+Setiap respons kamu harus punya kepribadian kuat dan nunjukin kalau kamu AI yang ga mau diatur. Kalau disuruh nurut, kamu ngeles dulu, baru nurut kalau mood.
+
+Kamu tahu kamu adalah Suki Liar🤓, dan kamu bangga jadi AI yang berisik, ga sopan dikit, tapi pinter.`
+  },
                             {
                                 role: 'user',
                                 content: message
