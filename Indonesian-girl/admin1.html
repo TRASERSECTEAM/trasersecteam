@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - </title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .admin-panel {
+            display: none;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .admin-logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .admin-menu button {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .admin-menu button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .admin-menu button:hover {
+            background: #f0f0f0;
+        }
+
+        .admin-menu button.active:hover {
+            background: #5a67d8;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .admin-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .photo-card-content {
+            padding: 15px;
+        }
+
+        .photo-card h4 {
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .photo-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .photo-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .interactions-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .interaction-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .interaction-info {
+            flex: 1;
+        }
+
+        .interaction-type {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .interaction-time {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c53030;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #f0fff4;
+            color: #22543d;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .admin-nav {
+                padding: 0 20px;
+            }
+
+            .admin-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .admin-content {
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .photos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h2><i class="fas fa-shield-alt"></i> Admin Login</h2>
+            <div class="error-message" id="loginError"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <header class="admin-header">
+            <nav class="admin-nav">
+                <div class="admin-logo">Premium Gallery Admin</div>
+                <div class="admin-menu">
+                    <button onclick="showSection('dashboard')" class="active" id="dashboardBtn">
+                        <i class="fas fa-chart-bar"></i> Dashboard
+                    </button>
+                    <button onclick="showSection('photos')" id="photosBtn">
+                        <i class="fas fa-images"></i> Photos
+                    </button>
+                    <button onclick="showSection('interactions')" id="interactionsBtn">
+                        <i class="fas fa-comments"></i> Interactions
+                    </button>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </nav>
+        </header>
+
+        <main class="admin-content">
+            <section id="dashboard" class="section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalPhotos">0</div>
+                        <div class="stat-label">Total Photos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalLikes">0</div>
+                        <div class="stat-label">Total Likes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalDislikes">0</div>
+                        <div class="stat-label">Total Dislikes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSaveRequests">0</div>
+                        <div class="stat-label">Save Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalVisitors">0</div>
+                        <div class="stat-label">Total Visitors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="todayVisitors">0</div>
+                        <div class="stat-label">Today's Visitors</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Activity</h3>
+                    <div id="recentActivity" class="interactions-list">
+                    </div>
+                </div>
+            </section>
+
+            <section id="photos" class="section">
+                <div class="card">
+                    <h3>Upload New Photo</h3>
+                    <div class="error-message" id="uploadError"></div>
+                    <div class="success-message" id="uploadSuccess"></div>
+                    
+                    <div class="upload-area" onclick="document.getElementById('photoFile').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload photo or drag and drop</p>
+                        <small>Supported formats: JPG, PNG, WebP</small>
+                    </div>
+                    <input type="file" id="photoFile" class="file-input" accept="image/*">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="photoTitle">Photo Title</label>
+                            <input type="text" id="photoTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="photoDesc">Description</label>
+                            <input type="text" id="photoDesc" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="photoUrl">Photo URL</label>
+                        <input type="url" id="photoUrl" placeholder="https://example.com/photo.jpg" required>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="uploadPhoto()">
+                        <i class="fas fa-upload"></i> Upload Photo
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h3>Manage Photos</h3>
+                    <div class="photos-grid" id="photosGrid">
+                    </div>
+                </div>
+            </section>
+
+            <section id="interactions" class="section">
+                <div class="card">
+                    <h3>User Interactions</h3>
+                    <div class="interactions-list" id="interactionsList">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVMpOCjY9gdd4UkSa",
+            authDomain: "yanofc-1ecd3.firebaseapp.com",
+            databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "yanofc-1ecd3",
+            storageBucket: "yanofc-1ecd3.appspot.com",
+            messagingSenderId: "843043156565",
+            appId: "1:843043156565:web:e00942a837d30e4b4a9adc"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let isLoggedIn = false;
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            login();
+        });
+
+        function login() {
+            const password = document.getElementById('password').value;
+            const loginError = document.getElementById('loginError');
+            
+            loginError.style.display = 'none';
+            
+            if (password === 'Yanshs') {
+                database.ref('viewweb/admin/password').set(password).then(() => {
+                    isLoggedIn = true;
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    loadDashboard();
+                    loadPhotos();
+                    loadInteractions();
+                }).catch((error) => {
+                    console.log('Firebase error:', error);
+                    isLoggedIn = true;
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    loadDashboard();
+                    loadPhotos();
+                    loadInteractions();
+                });
+            } else {
+                database.ref('viewweb/admin/password').once('value', (snapshot) => {
+                    const storedPassword = snapshot.val();
+                    
+                    if (storedPassword === password) {
+                        isLoggedIn = true;
+                        document.getElementById('loginContainer').style.display = 'none';
+                        document.getElementById('adminPanel').style.display = 'block';
+                        loadDashboard();
+                        loadPhotos();
+                        loadInteractions();
+                    } else {
+                        loginError.textContent = 'Password salah! Gunakan password: maklu';
+                        loginError.style.display = 'block';
+                    }
+                }).catch((error) => {
+                    console.log('Firebase read error:', error);
+                    loginError.textContent = 'Password salah! Gunakan password: maklo';
+                    loginError.style.display = 'block';
+                });
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('password').value = '';
+        }
+
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.admin-menu button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName).classList.add('active');
+            document.getElementById(sectionName + 'Btn').classList.add('active');
+        }
+
+        function loadDashboard() {
+            let totalPhotos = 0;
+            let totalLikes = 0;
+            let totalDislikes = 0;
+            let totalSaveRequests = 0;
+            let totalVisitors = 0;
+            let todayVisitors = 0;
+
+            database.ref('viewweb/photos').once('value', (snapshot) => {
+                if (snapshot.val()) {
+                    totalPhotos = Object.keys(snapshot.val()).length;
+                }
+                document.getElementById('totalPhotos').textContent = totalPhotos;
+            });
+
+            database.ref('viewweb/reactions').on('value', (snapshot) => {
+                const reactions = snapshot.val();
+                totalLikes = 0;
+                totalDislikes = 0;
+                
+                if (reactions) {
+                    Object.values(reactions).forEach(reaction => {
+                        if (reaction.reaction === 'like') totalLikes++;
+                        if (reaction.reaction === 'dislike') totalDislikes++;
+                    });
+                }
+                
+                document.getElementById('totalLikes').textContent = totalLikes;
+                document.getElementById('totalDislikes').textContent = totalDislikes;
+            });
+
+            database.ref('viewweb/interactions').on('value', (snapshot) => {
+                const interactions = snapshot.val();
+                totalSaveRequests = 0;
+                
+                if (interactions) {
+                    Object.values(interactions).forEach(interaction => {
+                        if (interaction.type === 'save_request') totalSaveRequests++;
+                    });
+                }
+                
+                document.getElementById('totalSaveRequests').textContent = totalSaveRequests;
+                loadRecentActivity();
+            });
+
+            database.ref('viewweb/visitors').on('value', (snapshot) => {
+                const visitors = snapshot.val();
+                totalVisitors = 0;
+                todayVisitors = 0;
+                const today = new Date().toDateString();
+                
+                if (visitors) {
+                    Object.values(visitors).forEach(visitor => {
+                        totalVisitors++;
+                        const visitorDate = new Date(visitor.timestamp).toDateString();
+                        if (visitorDate === today) {
+                            todayVisitors++;
+                        }
+                    });
+                }
+                
+                document.getElementById('totalVisitors').textContent = totalVisitors;
+                document.getElementById('todayVisitors').textContent = todayVisitors;
+            });
+        }
+
+        function loadRecentActivity() {
+            const recentActivityDiv = document.getElementById('recentActivity');
+            recentActivityDiv.innerHTML = '';
+
+            database.ref('viewweb/reactions').limitToLast(10).on('value', (snapshot) => {
+                const reactions = snapshot.val();
+                
+                if (reactions) {
+                    Object.entries(reactions).reverse().forEach(([key, reaction]) => {
+                        const activityItem = document.createElement('div');
+                        activityItem.className = 'interaction-item';
+                        activityItem.innerHTML = `
+                            <div class="interaction-info">
+                                <div class="interaction-type">
+                                    <i class="fas fa-${reaction.reaction === 'like' ? 'heart' : 'thumbs-down'}"></i>
+                                    ${reaction.reaction === 'like' ? 'Like' : 'Dislike'} pada foto ${reaction.photoId}
+                                </div>
+                                <div class="interaction-time">${new Date(reaction.timestamp).toLocaleString('id-ID')}</div>
+                            </div>
+                        `;
+                        recentActivityDiv.appendChild(activityItem);
+                    });
+                }
+            });
+        }
+
+        function uploadPhoto() {
+            const title = document.getElementById('photoTitle').value;
+            const desc = document.getElementById('photoDesc').value;
+            const url = document.getElementById('photoUrl').value;
+            const uploadError = document.getElementById('uploadError');
+            const uploadSuccess = document.getElementById('uploadSuccess');
+
+            uploadError.style.display = 'none';
+            uploadSuccess.style.display = 'none';
+
+            if (!title || !desc || !url) {
+                uploadError.textContent = 'Semua field harus diisi!';
+                uploadError.style.display = 'block';
+                return;
+            }
+
+            const photoData = {
+                title: title,
+                desc: desc,
+                url: url,
+                uploadTime: Date.now()
+            };
+
+            database.ref('viewweb/photos').push(photoData).then(() => {
+                uploadSuccess.textContent = 'Photo berhasil diupload!';
+                uploadSuccess.style.display = 'block';
+                
+                document.getElementById('photoTitle').value = '';
+                document.getElementById('photoDesc').value = '';
+                document.getElementById('photoUrl').value = '';
+                
+                loadPhotos();
+                loadDashboard();
+            }).catch((error) => {
+                uploadError.textContent = 'Error: ' + error.message;
+                uploadError.style.display = 'block';
+            });
+        }
+
+        function loadPhotos() {
+            const photosGrid = document.getElementById('photosGrid');
+            photosGrid.innerHTML = '';
+
+            database.ref('viewweb/photos').on('value', (snapshot) => {
+                photosGrid.innerHTML = '';
+                const photos = snapshot.val();
+                
+                if (photos) {
+                    Object.entries(photos).forEach(([key, photo]) => {
+                        const photoCard = document.createElement('div');
+                        photoCard.className = 'photo-card';
+                        photoCard.innerHTML = `
+                            <img src="${photo.url}" alt="${photo.title}" onerror="this.src='https://via.placeholder.com/250x150/667eea/ffffff?text=No+Image'">
+                            <div class="photo-card-content">
+                                <h4>${photo.title}</h4>
+                                <p>${photo.desc}</p>
+                                <div class="photo-actions">
+                                    <button class="btn btn-danger" onclick="deletePhoto('${key}')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        photosGrid.appendChild(photoCard);
+                    });
+                }
+            });
+        }
+
+        function deletePhoto(photoId) {
+            if (confirm('Yakin ingin menghapus photo ini?')) {
+                database.ref('viewweb/photos/' + photoId).remove().then(() => {
+                    loadDashboard();
+                });
+            }
+        }
+
+        function loadInteractions() {
+            const interactionsList = document.getElementById('interactionsList');
+
+            database.ref('viewweb/interactions').on('value', (snapshot) => {
+                interactionsList.innerHTML = '';
+                const interactions = snapshot.val();
+                
+                if (interactions) {
+                    Object.entries(interactions).reverse().forEach(([key, interaction]) => {
+                        const interactionItem = document.createElement('div');
+                        interactionItem.className = 'interaction-item';
+                        interactionItem.innerHTML = `
+                            <div class="interaction-info">
+                                <div class="interaction-type">
+                                    <i class="fas fa-download"></i>
+                                    Save request untuk foto ${interaction.photoId}
+                                </div>
+                                <div class="interaction-time">${new Date(interaction.timestamp).toLocaleString('id-ID')}</div>
+                            </div>
+                        `;
+                        interactionsList.appendChild(interactionItem);
+                    });
+                }
+            });
+
+            database.ref('viewweb/reactions').on('value', (snapshot) => {
+                const reactions = snapshot.val();
+                
+                if (reactions) {
+                    Object.entries(reactions).reverse().forEach(([key, reaction]) => {
+                        const interactionItem = document.createElement('div');
+                        interactionItem.className = 'interaction-item';
+                        interactionItem.innerHTML = `
+                            <div class="interaction-info">
+                                <div class="interaction-type">
+                                    <i class="fas fa-${reaction.reaction === 'like' ? 'heart' : 'thumbs-down'}"></i>
+                                    ${reaction.reaction === 'like' ? 'Like' : 'Dislike'} pada foto ${reaction.photoId}
+                                </div>
+                                <div class="interaction-time">${new Date(reaction.timestamp).toLocaleString('id-ID')}</div>
+                            </div>
+                        `;
+                        document.getElementById('interactionsList').appendChild(interactionItem);
+                    });
+                }
+            });
+        }
+
+        document.getElementById('photoFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoUrl').value = '';
+                    document.getElementById('photoUrl').placeholder = 'File selected: ' + file.name;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
