@@ -5,38 +5,68 @@
   <title>404 - Not Found</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      background-color: #0d0d0d;
-      color: #e0e0e0;
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
+    @import 'https://fonts.googleapis.com/css?family=VT323';
+
+$light-grey: #e0e2f4;
+$grey: #aaaaaa;
+$blue: #0414a7;
+
+$base-font-size: 20px;
+$font-stack: 'VT323', monospace;
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+a { color: $light-grey; }
+
+body,
+p { font: normal #{$base-font-size}/1.25rem $font-stack; }
+h1 { font: normal 2.75rem/1.05em $font-stack; }
+h2 { font: normal 2.25rem/1.25em $font-stack; }
+h3 { font: lighter 1.5rem/1.25em $font-stack; }
+h4 { font: lighter 1.125rem/1.2222222em $font-stack; }
+
+body { background: $blue; }
+
+.container {
+  width: 90%;
+  margin: auto;
+  max-width: 640px;
+}
+
+.bsod {
+  padding-top: 10%;
+  
+  .neg {
+    text-align: center;
+    color: $blue;
+    
+    .bg {
+      background: $grey;
+      padding: 0 15px 2px 13px;
     }
-    h1 {
-      font-size: 4em;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.2em;
-      color: #999;
-    }
-    a {
-      margin-top: 30px;
-      color: #00afff;
+  }
+  .title { margin-bottom: 50px; }
+  .nav {
+    margin-top: 35px;
+    text-align: center;
+    
+    .link {
       text-decoration: none;
-      font-size: 1em;
-      border: 1px solid #00afff;
-      padding: 8px 16px;
-      border-radius: 5px;
+      padding: 0 9px 2px 8px;
+      
+      &:hover,
+      &:focus {
+        background: $grey;
+        color: $blue;
+      }
     }
-    a:hover {
-      background-color: #00afff;
-      color: #000;
-    }
+  }
+}
+
   </style>
 </head>
 <body>
