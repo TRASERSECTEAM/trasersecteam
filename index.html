@@ -396,6 +396,25 @@
         <div class="main-content">
             <div class="form-section">
                 <h2>Register Team</h2>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <a href="https://uploadimg" style="
+                        display: inline-block;
+                        background: linear-gradient(45deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+                        color: white;
+                        padding: 12px 25px;
+                        border-radius: 10px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(124, 58, 237, 0.4)'" 
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(124, 58, 237, 0.3)'">
+                        Upload IMG
+                    </a>
+                </div>
                 <div id="message-container"></div>
                 <form id="teamForm">
                     <div class="form-group">
@@ -419,7 +438,6 @@
                         </div>
                     </div>
                     <button type="submit" class="submit-btn" id="submitBtn">Add Team</button>
-                  <button type="button" class="submit-btn" id="submitcv">Upload Img?</button>
                 </form>
             </div>
             
@@ -620,10 +638,5 @@
             console.error('Database error:', error);
         });
     </script>
-  <script>
-document.getElementById("submitcv").addEventListener("click", function() {
-    window.location.href = "https://contohwebsite.com"; 
-});
-  </script>
 </body>
 </html>
