@@ -4,3 +4,4 @@ Disallow:
 Sitemap: https://trasersecteam.my.id/sitemap.xml
 Sitemap: https://trasersecteam.my.id/sitemap1.xml
 Sitemap: https://trasersecteam.my.id/sitemap2.xml
+Sitemap: https://trasersecteam.my.id/news/sitemap.xml
