@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traser News - Latest Technology and Security News</title>
+    
+
+    <meta name="description" content="Traser News - Your trusted source for latest technology and cybersecurity news. Stay informed with breaking news and in-depth analysis.">
+    <meta name="keywords" content="technology news, cybersecurity, hacking, ransomware, security news, tech updates">
+    <meta name="author" content="Traser News Team">
+    
+
+    <meta property="og:title" content="Traser News - Latest Technology and Security News">
+    <meta property="og:description" content="Your trusted source for latest technology and cybersecurity news">
+    <meta property="og:image" content="https://yanshs.rf.gd/upload/img/68a055e372954_1755338211.jpg">
+    <meta property="og:url" content="https://trasersecteam.my.id">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Traser News - Latest Technology and Security News">
+    <meta name="twitter:description" content="Your trusted source for latest technology and cybersecurity news">
+    <meta name="twitter:image" content="https://yanshs.rf.gd/upload/img/68a055e372954_1755338211.jpg">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #3949ab;
+            --accent-color: #ff5722;
+            --text-dark: #212121;
+            --text-light: #757575;
+            --bg-light: #f8f9fa;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Header Styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(26, 35, 126, 0.8), rgba(57, 73, 171, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 4rem 0;
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .news-card-img {
+            height: 250px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .news-card-body {
+            padding: 2rem;
+        }
+
+        .news-category {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .news-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .read-more-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .contact-title {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-item i {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt me-2"></i>
+                Traser News
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#news">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="home" class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">TRASER NEWS</h1>
+            <p class="hero-subtitle">Your trusted source for cutting-edge technology and cybersecurity news. Stay ahead of the curve with expert analysis and breaking updates.</p>
+        </div>
+    </section>
+
+
+    <section id="news" class="news-section">
+        <div class="container">
+            <h2 class="section-title">Latest News</h2>
+            <div class="row">
+
+                <div class="col-lg-8 col-md-12 mb-4">
+                    <div class="news-card">
+                        <div class="news-card-img">
+                            <i class="fas fa-virus"></i>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">Breaking News</span>
+                            <h3 class="news-title">Massive Ransomware Campaign Targets Global Enterprises in 2025</h3>
+                            <div class="news-meta">
+                                <span><i class="far fa-clock me-1"></i>August 16, 2025</span>
+                                <span><i class="far fa-user me-1"></i>Traser Security Team</span>
+                            </div>
+                            <p class="news-excerpt">
+                                A sophisticated ransomware group has launched an unprecedented campaign targeting major corporations worldwide. Security experts warn that this new strain employs advanced AI-driven techniques, making it one of the most dangerous threats of 2025. Industry CEOs are calling for immediate action as the attack has already affected multiple Fortune 500 companies...
+                            </p>
+                            <a href="ransomware-2025" class="read-more-btn">
+                                Read Full Article <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-12">
+                    <div class="news-card">
+                        <div class="news-card-img" style="height: 150px; font-size: 2rem;">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">has been defaced</span>
+                            <h4 class="news-title">LammeeXsec Ft Bullyxploit</h4>
+                            <div class="news-meta">
+                                <span><i class="far fa-clock me-1"></i>August 15, 2025</span>
+                            </div>
+                            <p class="news-excerpt">
+                                situs diknas Oku di retas sekelompok hacker yang menemani dirinya sebagai lammerXsec Ft bullyxploit
+                            </p>
+                            <a href="situsresmi-diknasoku-diretas-sekelompok-hacker" class="read-more-btn">Read Full Article</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card">
+                        <div class="news-card-img" style="height: 150px; font-size: 2rem;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">AI Technology</span>
+                            <h4 class="news-title">AI Security Tools Revolutionize Threat Detection</h4>
+                            <div class="news-meta">
+                                <span><i class="far fa-clock me-1"></i>August 14, 2025</span>
+                            </div>
+                            <p class="news-excerpt">
+                                Leading technology companies are implementing AI-powered security solutions to combat evolving cyber threats...
+                            </p>
+                            <a href="#" class="read-more-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="news-card">
+                        <div class="news-card-img" style="height: 200px; font-size: 2.5rem;">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">Cloud Security</span>
+                            <h4 class="news-title">Cloud Infrastructure Under Attack</h4>
+                            <div class="news-meta">
+                                <span><i class="far fa-clock me-1"></i>August 13, 2025</span>
+                            </div>
+                            <p class="news-excerpt">
+                                Major cloud service providers report increased targeting by sophisticated threat actors...
+                            </p>
+                            <a href="#" class="read-more-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="news-card">
+                        <div class="news-card-img" style="height: 200px; font-size: 2.5rem;">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">Mobile Security</span>
+                            <h4 class="news-title">Mobile Malware Surge in 2025</h4>
+                            <div class="news-meta">
+                                <span><i class="far fa-clock me-1"></i>August 12, 2025</span>
+                            </div>
+                            <p class="news-excerpt">
+                                Security experts warn of a dramatic increase in mobile malware infections targeting banking apps...
+                            </p>
+                            <a href="#" class="read-more-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="news-card">
+                        <div class="news-card-img" style="height: 200px; font-size: 2.5rem;">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">Network Security</span>
+                            <h4 class="news-title">5G Network Vulnerabilities Exposed</h4>
+                            <div class="news-meta">
+                                <span><i class="far fa-clock me-1"></i>August 11, 2025</span>
+                            </div>
+                            <p class="news-excerpt">
+                                Researchers discover critical flaws in 5G infrastructure that could compromise network security...
+                            </p>
+                            <a href="#" class="read-more-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="contact-title">Contact Traser News</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>trasersecteam@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-telegram"></i>
+                    <span>@usrz7</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+62 882-9459-7253</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-globe"></i>
+                    <span>trasersecteam.my.id</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Traser News. All rights reserved. | Professional cybersecurity and technology news source.</p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.news-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 150;
+                
+                if (cardTop < window.innerHeight - cardVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.news-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+            });
+        });
+    </script>
+</body>
+</html>
