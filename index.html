@@ -92,7 +92,7 @@ body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; heigh
 
   
   <div class="dropdown" id="dropdownMenu">
-    <a href="https://trasersecteam.my.id/news/" target="_blank">News ID</a>
+    <a href="https://trasersecteam.my.id/news/" target="_blank">News</a>
   </div>
 </div>
 
@@ -115,29 +115,161 @@ body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; heigh
 </script>
  <div class="container"> <div class="header"> <h1>CYBER TEAM ARCHIVE</h1> <p>Elite Teams Database</p> </div> <div class="main-content"> <div class="form-section"> <h2>Register Team</h2> <div style="text-align: center; margin-bottom: 20px;"> <a href="https://yanshs.rf.gd/upload.php" style="
 display: inline-block; background: linear-gradient(45deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%); color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3); " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(124, 58, 237, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(124, 58, 237, 0.3)'"> Upload IMG </a> </div> <div id="message-container"></div> <form id="teamForm"> <div class="form-group"> <label for="teamName">Team Name</label> <div class="input-wrapper"> <input type="text" id="teamName" maxlength="20" required> <span class="char-counter" id="teamCounter">0/20</span> </div> </div> <div class="form-group"> <label for="founderName">Founder / Leader</label> <div class="input-wrapper"> <input type="text" id="founderName" maxlength="10" required> <span class="char-counter" id="founderCounter">0/10</span> </div> </div> <div class="form-group"> <label for="logoUrl">Logo URL</label> <div class="input-wrapper"> <input type="url" id="logoUrl" placeholder="https://example.com/logo.png"> </div> </div> <button type="submit" class="submit-btn" id="submitBtn">Add Team</button> </form> </div> <div class="teams-section"> <h2>Registered Teams</h2> <div id="teamsContainer" class="teams-grid"> <div class="loading">Loading teams...</div> </div> </div> </div> </div>
-<script type="module"> import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js'; import { getDatabase, ref, push, onValue, get, set } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
-const firebaseConfig = { apiKey: "AIzaSyBVMpOCjY9gdd4UkSa", authDomain: "yanofc-1ecd3.firebaseapp.com", databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "yanofc-1ecd3", storageBucket: "yanofc-1ecd3.appspot.com", messagingSenderId: "843043156565", appId: "1:843043156565:web:e00942a837d30e4b4a9adc" };
-const app = initializeApp(firebaseConfig); const database = getDatabase(app);
-const teamNameInput = document.getElementById('teamName'); const founderNameInput = document.getElementById('founderName'); const logoUrlInput = document.getElementById('logoUrl'); const teamCounter = document.getElementById('teamCounter'); const founderCounter = document.getElementById('founderCounter'); const form = document.getElementById('teamForm'); const submitBtn = document.getElementById('submitBtn'); const messageContainer = document.getElementById('message-container'); const teamsContainer = document.getElementById('teamsContainer');
-function sanitizeInput(input) { return input.replace(/[<>&"']/g, function(match) { const escapeMap = { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#x27;' }; return escapeMap[match]; }); }
-function detectXSS(input) { const xssPatterns = [ /<script[^>]*>.*?<\/script>/gi, /javascript:/gi, /on\w+\s*=/gi, /<iframe[^>]*>.*?<\/iframe>/gi, /<object[^>]*>.*?<\/object>/gi, /<embed[^>]*>.*?<\/embed>/gi, /eval\s*\(/gi, /expression\s*\(/gi, /vbscript:/gi, /data:text\/html/gi ]; return xssPatterns.some(pattern => pattern.test(input)); }
-function showMessage(message, type) { messageContainer.innerHTML = `<div class="${type}-message">${message}</div>`; setTimeout(() => { messageContainer.innerHTML = ''; }, 3000); }
-function updateCharCounter(input, counter, maxLength) { const length = input.value.length; counter.textContent = `${length}/${maxLength}`; if (length >= maxLength * 0.8) { counter.classList.add('warning'); } else { counter.classList.remove('warning'); } }
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getDatabase, ref, push, onValue, get, set } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBVMpOCjY9gdd4UkSa",
+  authDomain: "yanofc-1ecd3.firebaseapp.com",
+  databaseURL: "https://yanofc-1ecd3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yanofc-1ecd3",
+  storageBucket: "yanofc-1ecd3.appspot.com",
+  messagingSenderId: "843043156565",
+  appId: "1:843043156565:web:e00942a837d30e4b4a9adc"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+const teamNameInput = document.getElementById('teamName');
+const founderNameInput = document.getElementById('founderName');
+const logoUrlInput = document.getElementById('logoUrl');
+const teamCounter = document.getElementById('teamCounter');
+const founderCounter = document.getElementById('founderCounter');
+const form = document.getElementById('teamForm');
+const submitBtn = document.getElementById('submitBtn');
+const messageContainer = document.getElementById('message-container');
+const teamsContainer = document.getElementById('teamsContainer');
+
+function sanitizeInput(input) {
+  return input.replace(/[<>&"']/g, function(match) {
+    const escapeMap = { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#x27;' };
+    return escapeMap[match];
+  });
+}
+
+function detectXSS(input) {
+  const xssPatterns = [
+    /<script[^>]*>.*?<\/script>/gi,
+    /javascript:/gi,
+    /on\w+\s*=/gi,
+    /<iframe[^>]*>.*?<\/iframe>/gi,
+    /<object[^>]*>.*?<\/object>/gi,
+    /<embed[^>]*>.*?<\/embed>/gi,
+    /eval\s*\(/gi,
+    /expression\s*\(/gi,
+    /vbscript:/gi,
+    /data:text\/html/gi
+  ];
+  return xssPatterns.some(pattern => pattern.test(input));
+}
+
+function showMessage(message, type) {
+  messageContainer.innerHTML = `<div class="${type}-message">${message}</div>`;
+  setTimeout(() => { messageContainer.innerHTML = ''; }, 3000);
+}
+
+function updateCharCounter(input, counter, maxLength) {
+  const length = input.value.length;
+  counter.textContent = `${length}/${maxLength}`;
+  if (length >= maxLength * 0.8) counter.classList.add('warning');
+  else counter.classList.remove('warning');
+}
+
 teamNameInput.addEventListener('input', () => { updateCharCounter(teamNameInput, teamCounter, 20); });
 founderNameInput.addEventListener('input', () => { updateCharCounter(founderNameInput, founderCounter, 10); });
-form.addEventListener('submit', async (e) => { e.preventDefault(); const teamName = teamNameInput.value.trim(); const founderName = founderNameInput.value.trim(); const logoUrl = logoUrlInput.value.trim();
-if (!teamName || !founderName) { showMessage('Please fill in all fields', 'error'); return; }
-if (teamName.length > 20 || founderName.length > 10) { showMessage('Team name must be 20 characters or less and founder name must be 10 characters or less', 'error'); return; }
-if (detectXSS(teamName) || detectXSS(founderName) || detectXSS(logoUrl)) { alert('etss gaboleh injection ya'); return; }
-const sanitizedTeamName = sanitizeInput(teamName); const sanitizedFounderName = sanitizeInput(founderName); const sanitizedLogoUrl = sanitizeInput(logoUrl);
-try { submitBtn.disabled = true; submitBtn.textContent = 'Adding...';
-const userIP = await fetch('https://api.ipify.org?format=json') .then(response => response.json()) .then(data => data.ip) .catch(() => 'unknown');
-const teamsRef = ref(database, 'teams'); const ipRef = ref(database, `ips/${userIP.replace(/\./g, '_')}`); const ipSnapshot = await get(ipRef); if (ipSnapshot.exists()) { showMessage('IP address sudah pernah mendaftar tim', 'error'); submitBtn.disabled = false; submitBtn.textContent = 'Add Team'; return; }
-await push(teamsRef, { teamName: sanitizedTeamName, founderName: sanitizedFounderName, logoUrl: sanitizedLogoUrl || '', userIP: userIP, timestamp: Date.now() });
-await set(ipRef, true);
-showMessage('Team added successfully!', 'success'); form.reset(); updateCharCounter(teamNameInput, teamCounter, 20); updateCharCounter(founderNameInput, founderCounter, 10);
-} catch (error) { showMessage('Error adding team. Please try again.', 'error'); console.error('Error:', error); } finally { submitBtn.disabled = false; submitBtn.textContent = 'Add Team'; } });
-function displayTeams(teams) { if (!teams || Object.keys(teams).length === 0) { teamsContainer.innerHTML = '<div class="loading">No teams registered yet</div>'; return; }
-const teamsArray = Object.entries(teams).map(([id, team]) => ({ id, ...team })).sort((a, b) => b.timestamp - a.timestamp);
-teamsContainer.innerHTML = teamsArray.map(team => ` <div class="team-card"> ${team.logoUrl ? `<img src="${team.logoUrl}" alt="${team.teamName} logo" class="team-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"> <div class="team-logo placeholder" style="display:none;">${team.teamName.charAt(0).toUpperCase()}</div>` : `<div class="team-logo placeholder">${team.teamName.charAt(0).toUpperCase()}</div>` } <div class="team-info"> <div class="team-name">${team.teamName}</div> <div class="team-founder">Leader: ${team.founderName}</div> </div> </div> `).join(''); }
-const teamsRef = ref(database, 'teams'); onValue(teamsRef, (snapshot) => { const teams = snapshot.val(); displayTeams(teams); }, (error) => { teamsContainer.innerHTML = '<div class="loading">Error loading teams</div>'; console.error('Database error:', error); }); </script></body></html>
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const teamName = teamNameInput.value.trim();
+  const founderName = founderNameInput.value.trim();
+  const logoUrl = logoUrlInput.value.trim();
+
+  if (!teamName || !founderName) { showMessage('Please fill in all fields', 'error'); return; }
+  if (teamName.length > 20 || founderName.length > 10) { showMessage('Team name must be 20 characters or less and founder name must be 10 characters or less', 'error'); return; }
+  if (detectXSS(teamName) || detectXSS(founderName) || detectXSS(logoUrl)) { alert('etss gaboleh injection ya'); return; }
+
+  const sanitizedTeamName = sanitizeInput(teamName);
+  const sanitizedFounderName = sanitizeInput(founderName);
+  const sanitizedLogoUrl = sanitizeInput(logoUrl);
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Adding...';
+
+    const userIP = await fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => data.ip)
+      .catch(() => 'unknown');
+
+    const teamsRef = ref(database, 'teams');
+    const ipRef = ref(database, `ips/${userIP.replace(/\./g, '_')}`);
+    const ipSnapshot = await get(ipRef);
+
+    if (ipSnapshot.exists()) {
+      showMessage('IP address sudah pernah mendaftar tim', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Add Team';
+      return;
+    }
+
+    await push(teamsRef, { teamName: sanitizedTeamName, founderName: sanitizedFounderName, logoUrl: sanitizedLogoUrl || '', userIP, timestamp: Date.now() });
+    await set(ipRef, true);
+
+    showMessage('Team added successfully!', 'success');
+    form.reset();
+    updateCharCounter(teamNameInput, teamCounter, 20);
+    updateCharCounter(founderNameInput, founderCounter, 10);
+  } catch (error) {
+    showMessage('Error adding team. Please try again.', 'error');
+    console.error('Error:', error);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Add Team';
+  }
+});
+
+function displayTeams(teams) {
+  if (!teams || Object.keys(teams).length === 0) {
+    teamsContainer.innerHTML = '<div class="loading">No teams registered yet</div>';
+    return;
+  }
+
+  const teamsArray = Object.entries(teams).map(([id, team]) => ({ id, ...team })).sort((a,b) => b.timestamp - a.timestamp);
+
+  teamsContainer.innerHTML = teamsArray.map(team => `
+    <div class="team-card">
+      ${team.logoUrl ? `<img src="${team.logoUrl}" alt="${team.teamName} logo" class="team-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="team-logo placeholder" style="display:none;">${team.teamName.charAt(0).toUpperCase()}</div>` : `<div class="team-logo placeholder">${team.teamName.charAt(0).toUpperCase()}</div>`}
+      <div class="team-info">
+        <div class="team-name">${team.teamName}</div>
+        <div class="team-founder">Leader: ${team.founderName}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+const teamsRef = ref(database, 'teams');
+onValue(teamsRef, (snapshot) => {
+  const teams = snapshot.val();
+  displayTeams(teams);
+}, (error) => {
+  teamsContainer.innerHTML = '<div class="loading">Error loading teams</div>';
+  console.error('Database error:', error);
+});
+
+async function trackVisitor(pageName) {
+  const userIP = await fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(data => data.ip)
+    .catch(() => 'unknown');
+
+  const safeIP = userIP.replace(/\./g, '_');
+  const trafficRef = ref(database, `traffic/${safeIP}`);
+  set(trafficRef, { page: pageName, timestamp: Date.now() })
+    .catch(err => console.error('Error tracking visitor:', err));
+}
+
+trackVisitor(window.location.pathname);
+</script></body></html>
